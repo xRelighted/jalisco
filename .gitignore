@@ -13,6 +13,11 @@ build/
 .env.development.local
 .env.test.local
 .env.production.local
+.env.*
+!.env.example
+
+# Vercel deployment metadata
+.vercel/
 
 # IDE and editor files
 .vscode/

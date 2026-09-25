@@ -203,10 +203,23 @@ function vitePluginStorageProxy(): Plugin {
   };
 }
 
-const plugins = [react(), tailwindcss(), jsxLocPlugin(), vitePluginManusRuntime(), vitePluginManusDebugCollector(), vitePluginStorageProxy()];
+function vitePluginStripPreviewAssets(): Plugin {
+  return {
+    name: "strip-webdev-preview-assets",
+    apply: "build",
+    closeBundle() {
+      fs.rmSync(path.resolve(import.meta.dirname, "dist/public/__manus__"), { recursive: true, force: true });
+    },
+  };
+}
 
-export default defineConfig({
-  plugins,
+export default defineConfig(({ command }) => ({
+  plugins: [
+    react(),
+    tailwindcss(),
+    ...(command === "serve" ? [jsxLocPlugin(), vitePluginManusRuntime(), vitePluginManusDebugCollector(), vitePluginStorageProxy()] : []),
+    ...(command === "build" ? [vitePluginStripPreviewAssets()] : []),
+  ],
   resolve: {
     alias: {
       "@": path.resolve(import.meta.dirname, "client", "src"),
@@ -219,6 +232,16 @@ export default defineConfig({
   build: {
     outDir: path.resolve(import.meta.dirname, "dist/public"),
     emptyOutDir: true,
+    rollupOptions: {
+      output: {
+        manualChunks(id) {
+          if (!id.includes("node_modules")) return;
+          if (/\/node_modules\/(react|react-dom|scheduler)\//.test(id)) return "react-vendor";
+          if (/\/node_modules\/(react-router|react-router-dom|@remix-run\/router)\//.test(id)) return "router";
+          if (/\/node_modules\/(framer-motion|motion-dom|motion-utils)\//.test(id)) return "motion";
+        },
+      },
+    },
   },
   server: {
     port: 3000,
@@ -238,4 +261,4 @@ export default defineConfig({
       deny: ["**/.*"],
     },
   },
-});
+}));
