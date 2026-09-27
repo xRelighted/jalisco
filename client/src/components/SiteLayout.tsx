@@ -4,7 +4,7 @@ import type { ReactNode } from "react";
 import { useEffect, useState } from "react";
 import { Link, Outlet, useLocation } from "react-router-dom";
 import ResponsiveImage from "@/components/ResponsiveImage";
-import { brandLogo, business, copy, instagramHandle } from "@/data/site";
+import { brandLogo, business, copy, instagramHandle, pedidosYaIcon, safeExternalLink } from "@/data/site";
 
 function BrandLogo() {
   return <picture className="brand__seal" aria-hidden="true"><source type="image/webp" srcSet={brandLogo.webp} /><img src={brandLogo.fallback} width={40} height={40} alt="" /></picture>;
@@ -38,7 +38,7 @@ export default function SiteLayout() {
       <button className="mobile-nav-toggle" type="button" aria-label={mobileOpen ? "Cerrar menú" : "Abrir menú"} aria-expanded={mobileOpen} onClick={() => setMobileOpen((value) => !value)}>{mobileOpen ? <X size={21} /> : <MenuIcon size={21} />}</button>
     </div><AnimatePresence>{mobileOpen && <m.nav className="mobile-nav" aria-label="Navegación móvil" initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }} transition={{ duration: .18 }}><Link to="/menu" onClick={() => setMobileOpen(false)}>Menú</Link><Link to="/reservas" onClick={() => setMobileOpen(false)}>Reservas</Link><InstagramLink /></m.nav>}</AnimatePresence></header>
     <AnimatePresence mode="wait"><m.div key={location.pathname} className="route-transition" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -6 }} transition={{ duration: .22 }}><Outlet /></m.div></AnimatePresence>
-    <footer className="footer"><div className="section-wrap footer__main"><Link className="brand brand--footer" to="/" aria-label={`${business.name}, inicio`}><BrandLogo /><span className="brand__wordmark"><span>Jalisco</span><small>Mexican grill</small></span></Link><p>{copy.footer}</p><a className="footer__instagram" href={business.instagram} target="_blank" rel="noopener noreferrer"><Instagram size={19} aria-hidden="true" />{instagramHandle}</a></div></footer>
+    <footer className="footer"><div className="section-wrap footer__main"><Link className="brand brand--footer" to="/" aria-label={`${business.name}, inicio`}><BrandLogo /><span className="brand__wordmark"><span>Jalisco</span><small>Mexican grill</small></span></Link><p>{copy.footer}</p><div className="footer__links"><a className="footer__instagram" href={business.instagram} {...safeExternalLink}><Instagram size={19} aria-hidden="true" />{instagramHandle}</a><a className="footer__whatsapp" href={business.whatsapp} {...safeExternalLink}><WhatsappMark size={18} />WhatsApp</a><a className="footer__pedidosya" href={business.pedidosYa} {...safeExternalLink}><img src={pedidosYaIcon} width="24" height="24" alt="" />PedidosYa</a></div></div></footer>
     <a className="whatsapp-float" href={business.whatsapp} target="_blank" rel="noopener noreferrer" aria-label="Pedir por WhatsApp"><span className="whatsapp-float__pulse" aria-hidden="true" /><WhatsappMark size={26} /></a>
   </div></LazyMotion>;
 }

@@ -1,12 +1,15 @@
 import { menu } from "@/data/menu";
 
-export const siteUrl = "https://jalisco-gril-2tnpava5.manus.space";
-const storage = `${import.meta.env.DEV ? "" : siteUrl}/manus-storage/`;
+export const siteUrl = "https://jaliscopy.vercel.app";
+const imageStorageSiteUrl = "https://jalisco-gril-2tnpava5.manus.space";
+const storage = `${import.meta.env.DEV ? "" : imageStorageSiteUrl}/manus-storage/`;
+export const pedidosYaIcon = `${storage}pedidosya-icon_d3498a7f.png`;
 export const business = {
   name: "Jalisco Mexican Grill",
   address: "Porvenir e/ Luis María Argaña, Lambaré, Paraguay",
   hours: ["Lunes a Jueves: 17:30 a 00:00", "Viernes y Sábados: 17:30 a 01:00"],
   instagram: "https://www.instagram.com/jaliscopy/",
+  pedidosYa: "https://www.pedidosya.com.py/restaurantes/lambare/jalisco-py-menu",
   whatsapp: "https://api.whatsapp.com/send/?phone=595972237682&text=Hola+Jalisco!!+quisiera+hacer+un+pedido+",
   reservations: "https://fiweex.com/reservas_portal_bienvenida/ZoV1hA%3D%3D",
   directions: "https://www.google.com/maps/search/?api=1&query=-25.334968%2C-57.624854",
@@ -72,6 +75,22 @@ export const photos = [
   photo("cantarito", "Cantarito con cítricos.", 940, 430),
   photo("patio", "Patio exterior de Jalisco Mexican Grill.", 1200, 1200, true),
 ] as const;
+const nachosMenuPhoto: ResponsivePhoto = {
+  name: "nachos",
+  alt: "Nachos y totopos de Jalisco servidos con salsas y guacamole.",
+  width: 720,
+  height: 565,
+  src: `${storage}nachos-720_a3a7ecd6.jpg`,
+  srcSet: `${storage}nachos-360_c94ebd00.jpg 360w, ${storage}nachos-720_a3a7ecd6.jpg 720w`,
+  webp: `${storage}nachos-720_9d257602.webp`,
+  webpSet: `${storage}nachos-360_3f848bc5.webp 360w, ${storage}nachos-720_9d257602.webp 720w`,
+  social: `${storage}nachos-720_9d257602.webp`,
+};
+export const menuCategoryPhotos: Record<string, ResponsivePhoto> = {
+  "Los combos más chingones": nachosMenuPhoto,
+  "Tacos (incluye 4 tacos y 2 salsas)": photos[1],
+  "Pa beber - Los chingones": photos[3],
+};
 export const storyStats = [
   { value: "66 platos", label: "en el menú" },
   { value: "11 categorías", label: "para elegir" },
@@ -81,6 +100,7 @@ export const menuItems = menu.flatMap((category) => category.items);
 export const menuFacts = `${menuItems.length} platos · ${menu.length} categorías · Precios en guaraníes`;
 export const formatPrice = (price: number) => `${new Intl.NumberFormat("es-PY").format(price)} Gs`;
 export const orderLink = (name?: string) => name ? `https://api.whatsapp.com/send/?phone=595972237682&text=${encodeURIComponent(`Hola Jalisco!! Quisiera pedir ${name}.`)}` : business.whatsapp;
+export const individualOrderLink = (name: string) => `https://api.whatsapp.com/send/?phone=595972237682&text=${encodeURIComponent(`Hola Jalisco!! quisiera pedir: ${name}`)}`;
 export const featuredMenu = [
   ["Los combos más chingones", "Botana pa 2"],
   ["Los combos más chingones", "Fajitas de res"],
