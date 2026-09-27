@@ -802,3 +802,62 @@
   .footer__instagram, .footer__whatsapp, .footer__pedidosya { font-size: 10px; }
   .footer__instagram svg, .footer__whatsapp svg { width: 15px; height: 15px; }
 }
+
+
+/* Auditoría final de estabilidad responsive */
+html, body { width: 100%; max-width: 100%; overflow-x: clip; }
+.site-shell, .route-transition { min-width: 0; max-width: 100%; }
+.skip-link { position: fixed; z-index: 200; top: 10px; left: 10px; transform: translateY(calc(-100% - 18px)); opacity: 0; pointer-events: none; }
+.skip-link:focus-visible { transform: translateY(0); opacity: 1; pointer-events: auto; }
+#contenido { scroll-margin-top: 82px; }
+#contenido:focus { outline: none; }
+.mobile-instagram { display: none; }
+.about__stats-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.hero__content { z-index: 1; }
+.hero__talavera { position: absolute; z-index: 0; right: clamp(26px, 8vw, 116px); bottom: 14%; width: clamp(140px, 18vw, 210px); aspect-ratio: 1; opacity: .12; pointer-events: none; background-image: radial-gradient(circle at 50% 50%, transparent 0 17%, rgba(227,194,142,.9) 18% 19%, transparent 20% 38%, rgba(83,142,145,.9) 39% 41%, transparent 42%), repeating-conic-gradient(from 45deg at 50% 50%, rgba(245,239,230,.5) 0deg 2deg, transparent 2deg 45deg); background-size: 46px 46px; mask-image: radial-gradient(circle, #000 35%, transparent 74%); }
+.menu-page__category-heading-wrap, .menu-page__grid { min-width: 0; }
+.menu-page__category-title { flex-wrap: wrap; align-items: baseline; }
+.menu-page__category-title h3 { min-width: 0; overflow-wrap: anywhere; }
+.menu-page__category-title span:last-child { white-space: nowrap; }
+
+/* La foto ilustrativa cambia a una fila propia antes de que comprima el texto de la carta. */
+@media (min-width: 701px) and (max-width: 1024px) {
+  .menu-page__category--illustrated { grid-template-columns: minmax(0, 1fr); grid-template-areas: "heading" "photo" "items"; gap: 14px 0; }
+  .menu-page__category--illustrated .menu-page__category-photo { height: clamp(190px, 27vw, 250px); min-height: 0; margin: 0 0 12px; }
+  .menu-page__category-title { gap: 8px 12px; }
+  .menu-page__category-title h3 { flex: 1 1 280px; }
+  .menu-page__category-title span:last-child { margin-left: auto; }
+  .menu-page__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: clamp(12px, 2.5vw, 25px); }
+}
+
+.menu-back-top { position: fixed; z-index: 44; right: 22px; bottom: 94px; min-height: 46px; display: inline-flex; align-items: center; gap: 8px; padding: 0 15px; border: 1px solid rgba(245,239,230,.32); color: var(--bone); background: rgba(28,25,23,.94); box-shadow: 0 8px 22px rgba(15,12,10,.2); opacity: 0; visibility: hidden; pointer-events: none; transform: translateY(8px); transition: opacity .18s ease, visibility .18s ease, transform .18s cubic-bezier(.23,1,.32,1), background .18s ease; }
+.menu-back-top--visible { opacity: 1; visibility: visible; pointer-events: auto; transform: translateY(0); }
+.menu-back-top:hover { background: var(--terracotta-dark); }
+.menu-back-top span { font-size: 11px; font-weight: 650; }
+
+/* Detalles mexicanos discretos, coordinados entre las tres rutas */
+.menu-hero__paper-picado { z-index: 0; top: 16%; right: clamp(24px, 7vw, 100px); width: 54px; height: 82px; opacity: .13; }
+.menu-hero__content { z-index: 1; }
+.reservations-page__hero { position: relative; isolation: isolate; overflow: hidden; }
+.reservations-page__hero > .section-wrap { position: relative; z-index: 1; }
+.reservations-page__talavera { position: absolute; z-index: 0; top: 0; right: max(3vw, calc((100vw - 1240px)/2)); width: min(54vw, 640px); height: 100%; opacity: .1; pointer-events: none; background-image: radial-gradient(circle at 50% 50%, transparent 0 17%, rgba(227,194,142,.9) 18% 19%, transparent 20% 38%, rgba(83,142,145,.9) 39% 41%, transparent 42%), repeating-conic-gradient(from 45deg at 50% 50%, rgba(245,239,230,.55) 0deg 2deg, transparent 2deg 45deg); background-size: 48px 48px; mask-image: linear-gradient(90deg, transparent, #000 35%, #000 72%, transparent); }
+.reservations-page__paper-picado { z-index: 0; top: 12%; right: clamp(24px, 8vw, 116px); width: 54px; height: 82px; opacity: .13; }
+.menu-back-top:focus-visible { outline: 2px solid var(--mustard); outline-offset: 3px; }
+
+@media (max-width: 700px) {
+  .mobile-instagram { display: flex; width: 40px; height: 40px; flex: 0 0 auto; align-items: center; justify-content: center; color: var(--bone); text-decoration: none; }
+  .menu-back-top { right: 14px; bottom: calc(78px + env(safe-area-inset-bottom)); min-height: 43px; gap: 6px; padding-inline: 12px; }
+  .menu-back-top span { font-size: 10px; }
+  .menu-page__category--illustrated { row-gap: 9px; }
+  .hero__talavera { right: -42px; bottom: auto; top: 20%; width: 160px; opacity: .08; }
+  .menu-hero__paper-picado, .reservations-page__paper-picado { top: 19%; right: 18px; width: 42px; height: 64px; opacity: .1; }
+  .reservations-page__talavera { right: -64px; width: 85vw; opacity: .08; }
+  .about__stat { padding-inline: 12px; }
+  .about__stat:first-child { padding-left: 0; }
+}
+@media (max-width: 390px) {
+  .menu-back-top { right: 10px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .skip-link, .menu-back-top { transition: none; }
+}

@@ -1,7 +1,7 @@
 import { m, type Variants } from "framer-motion";
 import { ArrowUpRight, Clock3, Instagram, MapPin } from "lucide-react";
 import { Link } from "react-router-dom";
-import { business, copy, featuredMenu, formatPrice, orderLink, pedidosYaIcon, photos, safeExternalLink, sectionIds, storyStats } from "@/data/site";
+import { business, copy, featuredMenu, formatPrice, locations, orderLink, pedidosYaIcon, photos, safeExternalLink, sectionIds, storyStats } from "@/data/site";
 import { ScrollReveal, WhatsappMark } from "@/components/SiteLayout";
 import ResponsiveImage from "@/components/ResponsiveImage";
 
@@ -9,10 +9,10 @@ const heroStagger: Variants = { hidden: {}, show: { transition: { staggerChildre
 const heroLine: Variants = { hidden: { opacity: 0, y: 17 }, show: { opacity: 1, y: 0, transition: { duration: .46, ease: [.22, 1, .36, 1] } } };
 
 export default function Home() {
-  return <main id="contenido">
+  return <main id="contenido" tabIndex={-1}>
     <section className="hero" aria-labelledby="home-title">
       <div className="hero__photo"><ResponsiveImage photo={photos[4]} alt="" sizes="100vw" loading="eager" fetchPriority="high" /></div>
-      <div className="hero__shade" /><div className="hero__grain" /><span className="hero__paper-picado" aria-hidden="true" />
+      <div className="hero__shade" /><div className="hero__grain" /><span className="hero__paper-picado" aria-hidden="true" /><span className="hero__talavera" aria-hidden="true" />
       <div className="hero__content"><m.div className="hero__copy" variants={heroStagger} initial="hidden" animate="show">
         <m.p className="eyebrow eyebrow--light" variants={heroLine}>{copy.eyebrow}</m.p>
         <m.h1 id="home-title" variants={heroLine}>{copy.heroTitle}</m.h1>
@@ -56,10 +56,10 @@ export default function Home() {
       </div>
     </section>
     <section className="location section-pad" id={sectionIds.location} aria-labelledby="location-title">
-      <div className="section-wrap"><ScrollReveal className="location-heading"><h2 id="location-title">{copy.locationTitle}</h2><a className="text-link" href={business.directions} {...safeExternalLink}>Abrir en Google Maps<ArrowUpRight size={16} /></a></ScrollReveal>
-        <ScrollReveal className="location__grid" delay={.05}><div className="map-frame"><iframe title="Mapa de Jalisco Mexican Grill en Lambaré, Paraguay" src={business.mapEmbed} loading="lazy" referrerPolicy="no-referrer-when-downgrade" allowFullScreen /></div>
-          <div className="location-card"><div className="location-card__block"><MapPin size={20} aria-hidden="true" /><p>{business.address}</p></div><div className="location-card__block"><Clock3 size={20} aria-hidden="true" /><div>{business.hours.map((hour) => <p key={hour}>{hour}</p>)}</div></div><a className="button button--dark" href={business.directions} {...safeExternalLink}>Abrir en Google Maps<ArrowUpRight size={16} /></a></div>
-        </ScrollReveal>
+      <div className="section-wrap"><ScrollReveal className="location-heading"><h2 id="location-title">{copy.locationTitle}</h2><a className="text-link" href={locations[0].directions} {...safeExternalLink}>Abrir en Google Maps<ArrowUpRight size={16} /></a></ScrollReveal>
+        {locations.map((location) => <ScrollReveal className="location__grid" delay={.05} key={location.id}><div className="map-frame"><iframe title={`Mapa de ${location.name}: ${location.address}`} src={location.mapEmbed} loading="lazy" referrerPolicy="no-referrer-when-downgrade" allowFullScreen /></div>
+          <div className="location-card"><div className="location-card__topline">{location.name}</div><div className="location-card__block"><MapPin size={20} aria-hidden="true" /><p>{location.address}</p></div><div className="location-card__block"><Clock3 size={20} aria-hidden="true" /><div>{location.hours.map((hour) => <p key={hour}>{hour}</p>)}</div></div><a className="button button--dark" href={location.directions} {...safeExternalLink}>Abrir en Google Maps<ArrowUpRight size={16} /></a></div>
+        </ScrollReveal>)}
       </div>
     </section>
   </main>;

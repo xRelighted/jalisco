@@ -4,24 +4,30 @@ export const siteUrl = "https://jaliscopy.vercel.app";
 const imageStorageSiteUrl = "https://jalisco-gril-2tnpava5.manus.space";
 const storage = `${import.meta.env.DEV ? "" : imageStorageSiteUrl}/manus-storage/`;
 export const pedidosYaIcon = `${storage}pedidosya-icon_d3498a7f.png`;
+export const locations = [
+  {
+    id: "lambare",
+    name: "Jalisco Mexican Grill — Lambaré",
+    address: "Porvenir e/ Luis María Argaña, Lambaré, Paraguay",
+    hours: ["Lunes a Jueves: 17:30 a 00:00", "Viernes y Sábados: 17:30 a 01:00"],
+    directions: "https://www.google.com/maps/search/?api=1&query=-25.334968%2C-57.624854",
+    mapEmbed: "https://www.google.com/maps?q=-25.334968,-57.624854&output=embed",
+  },
+] as const;
 export const business = {
   name: "Jalisco Mexican Grill",
-  address: "Porvenir e/ Luis María Argaña, Lambaré, Paraguay",
-  hours: ["Lunes a Jueves: 17:30 a 00:00", "Viernes y Sábados: 17:30 a 01:00"],
   instagram: "https://www.instagram.com/jaliscopy/",
   pedidosYa: "https://www.pedidosya.com.py/restaurantes/lambare/jalisco-py-menu",
   whatsapp: "https://api.whatsapp.com/send/?phone=595972237682&text=Hola+Jalisco!!+quisiera+hacer+un+pedido+",
   reservations: "https://fiweex.com/reservas_portal_bienvenida/ZoV1hA%3D%3D",
-  directions: "https://www.google.com/maps/search/?api=1&query=-25.334968%2C-57.624854",
-  mapEmbed: "https://www.google.com/maps?q=-25.334968,-57.624854&output=embed",
 } as const;
 export const copy = {
-  eyebrow: "Cocina Mexicana — Lambaré, Paraguay",
+  eyebrow: "Cocina Mexicana",
   heroTitle: "Jalisco Mexican Grill",
   heroSubtitle: "El mero mero sabor ranchero, a un mensaje de distancia.",
-  heroSupport: "Tacos, tequila y buena onda en Lambaré. Todos los días desde las 17:30.",
+  heroSupport: "Tacos, tequila y buena onda. Todos los días desde las 17:30.",
   storyTitle: "Nuestra historia",
-  story: "Jalisco nació con una idea simple: traer el sabor ranchero de México a Lambaré, sin perder la esencia ni la calidad. Detrás de la barra y en cada plato hay recetas que respetan la tradición mexicana, pero con la calidez de siempre atendernos como en casa. Nuestro mural —esa calavera con sombrero que ya es parte de la identidad de Jalisco— resume bien lo que somos: color, sabor y una noche que se disfruta de principio a fin.",
+  story: "Jalisco nació con una idea simple: traer el sabor ranchero de México a nuestra mesa, sin perder la esencia ni la calidad. Detrás de la barra y en cada plato hay recetas que respetan la tradición mexicana, pero con la calidez de siempre atendernos como en casa. Nuestro mural —esa calavera con sombrero que ya es parte de la identidad de Jalisco— resume bien lo que somos: color, sabor y una noche que se disfruta de principio a fin.",
   galleryTitle: "Así se vive Jalisco",
   gallery: "Buena mesa, buena compañía y el mural que ya es parte de la casa.",
   instagramTitle: "Seguinos en Instagram",
@@ -94,7 +100,6 @@ export const menuCategoryPhotos: Record<string, ResponsivePhoto> = {
 export const storyStats = [
   { value: "66 platos", label: "en el menú" },
   { value: "11 categorías", label: "para elegir" },
-  { value: "57.9K seguidores", label: "en Instagram" },
 ] as const;
 export const menuItems = menu.flatMap((category) => category.items);
 export const menuFacts = `${menuItems.length} platos · ${menu.length} categorías · Precios en guaraníes`;
@@ -114,13 +119,12 @@ export const featuredMenu = [
 export const routeMetadata = {
   "/": { title: business.name, description: copy.heroSupport, image: photos[4].social },
   "/menu": { title: `${copy.menuTitle} | ${business.name}`, description: menuFacts, image: photos[1].social },
-  "/reservas": { title: `${copy.reservationsTitle} | ${business.name}`, description: `${business.address} · ${business.hours.join(" · ")}`, image: photos[4].social },
+  "/reservas": { title: `${copy.reservationsTitle} | ${business.name}`, description: locations.map((location) => `${location.address} · ${location.hours.join(" · ")}`).join(" | "), image: photos[4].social },
 } as const;
 export const metadataForPath = (path: string) => routeMetadata[path as keyof typeof routeMetadata] ?? routeMetadata["/"];
 export const canonicalForPath = (path: string) => `${siteUrl}${path}`;
 export const whatsappReservation = `https://api.whatsapp.com/send/?phone=595972237682&text=${encodeURIComponent("Hola Jalisco, quisiera coordinar una reserva.")}`;
 export const instagramHandle = "@jaliscopy";
-export const mapTitle = "Mapa de Jalisco Mexican Grill en Lambaré, Paraguay";
 export const menuAccents = ["terracotta", "mustard", "turquoise"] as const;
 export const menuIcons = ["UsersRound", "Popcorn", "Sandwich", "UtensilsCrossed", "CookingPot", "Wine", "Snowflake", "Citrus", "GlassWater", "Beer", "CupSoda"] as const;
 export const safeExternalLink = { target: "_blank", rel: "noopener noreferrer" } as const;

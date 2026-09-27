@@ -1,5 +1,5 @@
 import { m } from "framer-motion";
-import { ArrowUpRight, Beer, Check, Citrus, CookingPot, CupSoda, GlassWater, Popcorn, Sandwich, Share2, Snowflake, UtensilsCrossed, UsersRound, Wine } from "lucide-react";
+import { ArrowUp, ArrowUpRight, Beer, Check, Citrus, CookingPot, CupSoda, GlassWater, Popcorn, Sandwich, Share2, Snowflake, UtensilsCrossed, UsersRound, Wine } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { individualOrderLink, business, copy, formatPrice, menuCategoryPhotos, menuFacts, menuAccents, pedidosYaIcon, photos, safeExternalLink, siteUrl } from "@/data/site";
@@ -30,6 +30,7 @@ const safeMenuSchema = JSON.stringify(menuSchema).replace(/</g, "\\u003c");
 export default function MenuPage() {
   const [active, setActive] = useState(0);
   const [shareLabel, setShareLabel] = useState("Compartir menú");
+  const [showBackToTop, setShowBackToTop] = useState(false);
 
   useEffect(() => {
     const targets = menu.map((_, index) => document.getElementById(menuCategoryId(index))).filter((node): node is HTMLElement => Boolean(node));
@@ -37,8 +38,11 @@ export default function MenuPage() {
       const current = entries.filter((entry) => entry.isIntersecting).sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
       if (current) setActive(Number(current.target.getAttribute("data-index")));
     }, { rootMargin: "-22% 0px -66% 0px", threshold: [0, .2, .55] });
+    const updateBackToTop = () => setShowBackToTop(window.scrollY > 900);
+    updateBackToTop();
+    window.addEventListener("scroll", updateBackToTop, { passive: true });
     targets.forEach((element) => observer.observe(element));
-    return () => observer.disconnect();
+    return () => { observer.disconnect(); window.removeEventListener("scroll", updateBackToTop); };
   }, []);
 
   const jumpTo = (index: number) => {
@@ -66,12 +70,12 @@ export default function MenuPage() {
     }
   };
 
-  return <main id="contenido" className="menu-page">
+  return <main id="contenido" className="menu-page" tabIndex={-1}>
     <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: safeMenuSchema }} />
     <header className="menu-hero">
       <div className="menu-hero__image"><ResponsiveImage photo={photos[1]} sizes="100vw" loading="eager" fetchPriority="high" /></div>
-      <div className="menu-hero__shade" /><span className="menu-hero__talavera" aria-hidden="true" />
-      <div className="section-wrap menu-hero__content"><ScrollReveal><p className="menu-hero__eyebrow">Jalisco Mexican Grill · Lambaré</p><h1>{copy.menuTitle}</h1><p>{menuFacts}</p><button className="menu-share" type="button" onClick={shareMenu}>{shareLabel === "Enlace copiado" ? <Check size={17} /> : <Share2 size={17} />}{shareLabel}</button></ScrollReveal></div>
+      <div className="menu-hero__shade" /><span className="menu-hero__talavera" aria-hidden="true" /><span className="hero__paper-picado menu-hero__paper-picado" aria-hidden="true" />
+      <div className="section-wrap menu-hero__content"><ScrollReveal><p className="menu-hero__eyebrow">Jalisco Mexican Grill · Cocina mexicana</p><h1>{copy.menuTitle}</h1><p>{menuFacts}</p><button className="menu-share" type="button" onClick={shareMenu}>{shareLabel === "Enlace copiado" ? <Check size={17} /> : <Share2 size={17} />}{shareLabel}</button></ScrollReveal></div>
     </header>
     <div className="menu-tabs-wrap menu-page__tabs"><nav className="menu-tabs section-wrap" aria-label="Categorías del menú">{menu.map((category, index) => <button className={`menu-tab ${active === index ? "menu-tab--active" : ""}`} type="button" key={category.categoria} onClick={() => jumpTo(index)} aria-current={active === index ? "true" : undefined}>{category.categoria}</button>)}</nav></div>
     <div className="section-wrap menu-page__content">
@@ -97,6 +101,7 @@ export default function MenuPage() {
       <a className="button button--pedidosya" href={business.pedidosYa} {...safeExternalLink}><img src={pedidosYaIcon} width="21" height="21" alt="" />Pedir por PedidosYa<ArrowUpRight size={17} /></a>
       <Link className="button button--outline-dark" to="/reservas">Reservar mesa<ArrowUpRight size={17} /></Link>
     </div></section>
+    <button className={`menu-back-top${showBackToTop ? " menu-back-top--visible" : ""}`} type="button" aria-label="Volver arriba" aria-hidden={!showBackToTop} tabIndex={showBackToTop ? 0 : -1} onClick={() => window.scrollTo({ top: 0, behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth" })}><ArrowUp size={19} aria-hidden="true" /><span>Volver arriba</span></button>
     <nav className="menu-mobile-actions" aria-label="Pedidos rápidos"><a className="menu-mobile-actions__whatsapp" href={business.whatsapp} {...safeExternalLink}><WhatsappMark />WhatsApp</a><a className="menu-mobile-actions__pedidosya" href={business.pedidosYa} {...safeExternalLink}><img src={pedidosYaIcon} width="22" height="22" alt="" />PedidosYa</a></nav>
   </main>;
 }
