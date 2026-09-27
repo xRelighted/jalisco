@@ -81,22 +81,6 @@ export const photos = [
   photo("cantarito", "Cantarito con cítricos.", 940, 430),
   photo("patio", "Patio exterior de Jalisco Mexican Grill.", 1200, 1200, true),
 ] as const;
-const nachosMenuPhoto: ResponsivePhoto = {
-  name: "nachos",
-  alt: "Nachos y totopos de Jalisco servidos con salsas y guacamole.",
-  width: 720,
-  height: 565,
-  src: `${storage}nachos-720_a3a7ecd6.jpg`,
-  srcSet: `${storage}nachos-360_c94ebd00.jpg 360w, ${storage}nachos-720_a3a7ecd6.jpg 720w`,
-  webp: `${storage}nachos-720_9d257602.webp`,
-  webpSet: `${storage}nachos-360_3f848bc5.webp 360w, ${storage}nachos-720_9d257602.webp 720w`,
-  social: `${storage}nachos-720_9d257602.webp`,
-};
-export const menuCategoryPhotos: Record<string, ResponsivePhoto> = {
-  "Los combos más chingones": nachosMenuPhoto,
-  "Tacos (incluye 4 tacos y 2 salsas)": photos[1],
-  "Pa beber - Los chingones": photos[3],
-};
 export const storyStats = [
   { value: "66 platos", label: "en el menú" },
   { value: "11 categorías", label: "para elegir" },
