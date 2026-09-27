@@ -1,6 +1,6 @@
 # Jalisco Mexican Grill
 
-Sitio vitrina para Jalisco Mexican Grill, restaurante en Lambaré, Paraguay.
+Sitio para Jalisco Mexican Grill, restaurante/s Paraguay.
 
 ## Stack
 
