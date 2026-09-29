@@ -19,6 +19,7 @@ export default function ResponsiveImage({
 }: Props) {
   return (
     <picture className={className}>
+      <source type="image/avif" srcSet={photo.avifSet} sizes={sizes} />
       <source type="image/webp" srcSet={photo.webpSet} sizes={sizes} />
       <img
         src={photo.src}

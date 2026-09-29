@@ -52,7 +52,7 @@ export const menu: MenuCategory[] = [
       { nombre: "Campechano", descripcion: "Carne de res y chorizo parrillero en tortilla de maíz.", precio: 65000 },
       { nombre: "Suadero", descripcion: "Los tacos callejeros originales, con carne desmechada.", precio: 65000 },
       { nombre: "Al pastor", descripcion: "Cerdo marinado 24 horas con un toque de piña.", precio: 65000 },
-      { nombre: "Tacos de birria", descripcion: "Recién llegaditos de México, para los que ya los probaron y quieren más.", precio: 65000 },
+      { nombre: "Tacos de birria", descripcion: "Recién llegaditos de México, para los que ya los probaron y quieren más.", precio: 85000 },
     ],
   },
   {

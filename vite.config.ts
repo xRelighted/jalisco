@@ -5,6 +5,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { defineConfig, type Plugin, type ViteDevServer } from "vite";
 import { vitePluginManusRuntime } from "vite-plugin-manus-runtime";
+import { openingHours } from "./client/src/data/hours";
 
 // =============================================================================
 // Manus Debug Collector - Vite Plugin
@@ -213,8 +214,24 @@ function vitePluginStripPreviewAssets(): Plugin {
   };
 }
 
+function vitePluginRestaurantHoursSchema(): Plugin {
+  const specifications = openingHours.map((period) => ({
+    "@type": "OpeningHoursSpecification",
+    dayOfWeek: period.days.map((day) => `https://schema.org/${day}`),
+    opens: period.opens,
+    closes: period.closes,
+  }));
+  return {
+    name: "restaurant-hours-schema",
+    transformIndexHtml(html) {
+      return html.replace('"__OPENING_HOURS_SPECIFICATION__"', JSON.stringify(specifications));
+    },
+  };
+}
+
 export default defineConfig(({ command }) => ({
   plugins: [
+    vitePluginRestaurantHoursSchema(),
     react(),
     tailwindcss(),
     ...(command === "serve" ? [jsxLocPlugin(), vitePluginManusRuntime(), vitePluginManusDebugCollector(), vitePluginStorageProxy()] : []),

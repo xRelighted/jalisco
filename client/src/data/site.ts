@@ -1,4 +1,6 @@
 import { menu } from "@/data/menu";
+import { openingHours } from "@/data/hours";
+import { photoAvifSets } from "@/data/media";
 
 export const siteUrl = "https://jaliscopy.vercel.app";
 const imageStorageSiteUrl = "https://jalisco-gril-2tnpava5.manus.space";
@@ -9,7 +11,7 @@ export const locations = [
     id: "lambare",
     name: "Jalisco Mexican Grill — Lambaré",
     address: "Porvenir e/ Luis María Argaña, Lambaré, Paraguay",
-    hours: ["Lunes a Jueves: 17:30 a 00:00", "Viernes y Sábados: 17:30 a 01:00"],
+    hours: openingHours.map((period) => `${period.label}: ${period.opens} a ${period.closes}`),
     directions: "https://www.google.com/maps/search/?api=1&query=-25.334968%2C-57.624854",
     mapEmbed: "https://www.google.com/maps?q=-25.334968,-57.624854&output=embed",
   },
@@ -24,8 +26,8 @@ export const business = {
 export const copy = {
   eyebrow: "Cocina Mexicana",
   heroTitle: "Jalisco Mexican Grill",
-  heroSubtitle: "El mero mero sabor ranchero, a un mensaje de distancia.",
-  heroSupport: "Tacos, tequila y buena onda. Todos los días desde las 17:30.",
+  heroSubtitle: "Tacos, tequila y buena onda.",
+  heroSupport: "Tacos, tequila y buena onda.",
   storyTitle: "Nuestra historia",
   story: "Jalisco nació con una idea simple: traer el sabor ranchero de México a nuestra mesa, sin perder la esencia ni la calidad. Detrás de la barra y en cada plato hay recetas que respetan la tradición mexicana, pero con la calidez de siempre atendernos como en casa. Nuestro mural —esa calavera con sombrero que ya es parte de la identidad de Jalisco— resume bien lo que somos: color, sabor y una noche que se disfruta de principio a fin.",
   galleryTitle: "Así se vive Jalisco",
@@ -50,6 +52,7 @@ export type ResponsivePhoto = {
   webp: string;
   webpSet: string;
   social: string;
+  avifSet: string;
 };
 function photo(name: string, alt: string, width: number, height: number, has1200 = false): ResponsivePhoto {
   const sizes = has1200 ? [360, 720, 1200] : [360, 720];
@@ -60,6 +63,7 @@ function photo(name: string, alt: string, width: number, height: number, has1200
     name, alt, width, height,
     src: `${storage}${name}-${largest}_${assetIds[name][`jpg${largest}`]}.jpg`,
     srcSet, webp: `${storage}${name}-${largest}_${assetIds[name][`webp${largest}`]}.webp`, webpSet,
+    avifSet: sizes.map((size) => `${photoAvifSets[`${name}-${size}`]} ${size}w`).join(", "),
     social: `${storage}${name}-${largest}_${assetIds[name][`webp${largest}`]}.webp`,
   };
 }
@@ -89,21 +93,11 @@ export const menuItems = menu.flatMap((category) => category.items);
 export const menuFacts = `${menuItems.length} platos · ${menu.length} categorías · Precios en guaraníes`;
 export const formatPrice = (price: number) => `${new Intl.NumberFormat("es-PY").format(price)} Gs`;
 export const orderLink = (name?: string) => name ? `https://api.whatsapp.com/send/?phone=595972237682&text=${encodeURIComponent(`Hola Jalisco!! Quisiera pedir ${name}.`)}` : business.whatsapp;
-export const individualOrderLink = (name: string) => `https://api.whatsapp.com/send/?phone=595972237682&text=${encodeURIComponent(`Hola Jalisco!! quisiera pedir: ${name}`)}`;
-export const featuredMenu = [
-  ["Los combos más chingones", "Botana pa 2"],
-  ["Los combos más chingones", "Fajitas de res"],
-  ["Pa picar", "Nachos Jalisco"],
-  ["Tacos (incluye 4 tacos y 2 salsas)", "Tacos de birria"],
-].map(([categoria, nombre]) => {
-  const item = menu.find((group) => group.categoria === categoria)?.items.find((dish) => dish.nombre === nombre);
-  if (!item) throw new Error(`No se encontró: ${nombre}`);
-  return { categoria, ...item };
-});
+export const individualOrderLink = (name: string) => `https://api.whatsapp.com/send/?phone=595972237682&text=${encodeURIComponent(`Hola Jalisco! Quiero pedir: ${name}`)}`;
 export const routeMetadata = {
-  "/": { title: business.name, description: copy.heroSupport, image: photos[4].social },
+  "/": { title: business.name, description: `${copy.heroSupport} ${locations[0].hours.join(" · ")}.`, image: photos[0].social },
   "/menu": { title: `${copy.menuTitle} | ${business.name}`, description: menuFacts, image: photos[1].social },
-  "/reservas": { title: `${copy.reservationsTitle} | ${business.name}`, description: locations.map((location) => `${location.address} · ${location.hours.join(" · ")}`).join(" | "), image: photos[4].social },
+  "/reservas": { title: `${copy.reservationsTitle} | ${business.name}`, description: locations.map((location) => `${location.address} · ${location.hours.join(" · ")}`).join(" | "), image: photos[0].social },
 } as const;
 export const metadataForPath = (path: string) => routeMetadata[path as keyof typeof routeMetadata] ?? routeMetadata["/"];
 export const canonicalForPath = (path: string) => `${siteUrl}${path}`;

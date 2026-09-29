@@ -1,7 +1,8 @@
 import { ArrowUp, ArrowUpRight, Beer, Check, Citrus, CookingPot, CupSoda, GlassWater, Popcorn, Sandwich, Share2, Snowflake, UtensilsCrossed, UsersRound, Wine } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { individualOrderLink, business, copy, formatPrice, menuFacts, menuAccents, menuCategoryPhotos, pedidosYaIcon, photos, safeExternalLink, siteUrl } from "@/data/site";
+import { individualOrderLink, business, copy, formatPrice, menuFacts, menuAccents, pedidosYaIcon, photos, safeExternalLink, siteUrl } from "@/data/site";
+import { menuCategoryMedia } from "@/data/media";
 import { ScrollReveal, WhatsappMark } from "@/components/SiteLayout";
 import ResponsiveImage from "@/components/ResponsiveImage";
 import { menu } from "@/data/menu";
@@ -86,8 +87,8 @@ export default function MenuPage() {
           <section id={menuCategoryId(index)} data-index={index} className={`menu-page__category menu-page__category--${index % 2 ? "alternate" : "paper"} menu-accent--${menuAccents[index % menuAccents.length]}`} aria-labelledby={`category-title-${index}`}>
             <header className="menu-page__category-heading-wrap"><div className="menu-page__category-title"><span>{String(index + 1).padStart(2, "0")}</span><h3 id={`category-title-${index}`}>{category.categoria}</h3><span>{String(category.items.length).padStart(2, "0")} opciones</span></div></header>
             <ul className="menu-page__gallery" aria-label={`Fotos ilustrativas: ${category.categoria}`}>
-              {(menuCategoryPhotos[index] ?? []).map((photo, photoIndex) => <li key={photo.src}>
-                <figure><picture><img src={photo.src} width="1000" height="750" alt={photo.alt} loading={index === 0 && photoIndex === 0 ? "eager" : "lazy"} fetchPriority={index === 0 && photoIndex === 0 ? "high" : "auto"} decoding="async" /></picture></figure>
+              {(menuCategoryMedia[index] ?? []).map((photo, photoIndex) => <li key={`${index}-${photoIndex}`}>
+                <figure><picture><source type="image/avif" srcSet={photo.avifSet} sizes="(max-width: 767px) 76vw, 33vw" /><source type="image/webp" srcSet={photo.webpSet} sizes="(max-width: 767px) 76vw, 33vw" /><img src={photo.src} width="1024" height="768" alt={photo.alt} loading="lazy" fetchPriority="auto" decoding="async" /></picture></figure>
               </li>)}
             </ul>
             <div className="menu-page__grid">{category.items.map((item, itemIndex) => <details className="menu-page__item" key={`${item.nombre}-${itemIndex}`}>
@@ -104,6 +105,5 @@ export default function MenuPage() {
       <Link className="button button--outline-dark" to="/reservas">Reservar mesa<ArrowUpRight size={17} /></Link>
     </div></section>
     <button className={`menu-back-top${showBackToTop ? " menu-back-top--visible" : ""}`} type="button" aria-label="Volver arriba" aria-hidden={!showBackToTop} tabIndex={showBackToTop ? 0 : -1} onClick={() => window.scrollTo({ top: 0, behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth" })}><ArrowUp size={19} aria-hidden="true" /><span>Volver arriba</span></button>
-    <nav className="menu-mobile-actions" aria-label="Pedidos rápidos"><a className="menu-mobile-actions__whatsapp" href={business.whatsapp} {...safeExternalLink}><WhatsappMark />WhatsApp</a><a className="menu-mobile-actions__pedidosya" href={business.pedidosYa} {...safeExternalLink}><img src={pedidosYaIcon} width="22" height="22" alt="" />PedidosYa</a></nav>
   </main>;
 }

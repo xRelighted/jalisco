@@ -1,59 +1,46 @@
 import { useEffect, useState } from "react";
+import { openingHours } from "@/data/hours";
+import { getOpeningSnapshot, type OpeningSnapshot } from "@/lib/openNow";
 
-type OpeningStatus = "open" | "closed";
+type Props = { variant?: "full" | "compact" | "schedule" | "status" };
 
-export function getOpeningStatus(date: Date): OpeningStatus {
-  // Use the visitor's device-local date and time, as specified in the brief.
-  const weekday = date.getDay(); // 0 = Sunday, 1 = Monday, …, 6 = Saturday.
-  const minutes = date.getHours() * 60 + date.getMinutes();
-  const opensAt = 17 * 60 + 30;
-
-  // Friday closes at 01:00 Saturday; Saturday closes at 01:00 Sunday.
-  if ((weekday === 6 || weekday === 0) && minutes < 60) {
-    return "open";
-  }
-
-  // Monday–Thursday close at midnight. Friday and Saturday close at 01:00.
-  if (weekday >= 1 && weekday <= 6 && minutes >= opensAt) return "open";
-  return "closed";
-}
-
-const statusText: Record<OpeningStatus, string> = {
-  open: "Abierto ahora",
-  closed: "Cerrado ahora",
-};
-
-export default function OpeningHours() {
-  const [status, setStatus] = useState<OpeningStatus>(() => getOpeningStatus(new Date()));
+function OpeningHours({ variant = "full" }: Props) {
+  const [snapshot, setSnapshot] = useState<OpeningSnapshot>(() => getOpeningSnapshot(new Date()));
 
   useEffect(() => {
-    const updateStatus = () => setStatus(getOpeningStatus(new Date()));
-    const timer = window.setInterval(updateStatus, 60_000);
-    document.addEventListener("visibilitychange", updateStatus);
+    const refresh = () => setSnapshot(getOpeningSnapshot(new Date()));
+    const timer = window.setInterval(refresh, 30_000);
+    document.addEventListener("visibilitychange", refresh);
     return () => {
       window.clearInterval(timer);
-      document.removeEventListener("visibilitychange", updateStatus);
+      document.removeEventListener("visibilitychange", refresh);
     };
   }, []);
 
+  const status = variant !== "schedule";
   return (
-    <div className="opening-hours" aria-label="Horario de atención de Jalisco Mexican Grill">
-      <div className={`opening-hours__status opening-hours__status--${status}`} role="status" aria-live="polite">
-        <span className="opening-hours__status-dot" aria-hidden="true" />
-        {statusText[status]}
-      </div>
-      <table className="opening-hours__table">
-        <tbody>
-          <tr>
-            <th scope="row">Lunes a Jueves</th>
-            <td>17:30 – 00:00</td>
-          </tr>
-          <tr>
-            <th scope="row">Viernes y Sábados</th>
-            <td>17:30 – 01:00</td>
-          </tr>
-        </tbody>
-      </table>
+    <div className={`opening-hours opening-hours--${variant}`} aria-label="Horario de atención de Jalisco Mexican Grill">
+      {status && (
+        <div className={`opening-hours__status opening-hours__status--${snapshot.isOpen ? "open" : "closed"}`} role="status" aria-live="polite">
+          <span className="opening-hours__status-dot" aria-hidden="true" />
+          <strong>{snapshot.status}</strong>
+          <span className="opening-hours__detail">{snapshot.detail}</span>
+        </div>
+      )}
+      {variant === "compact" ? (
+        <p className="opening-hours__short">Lun–Jue 17:30 a 00:00 <span aria-hidden="true">·</span> Vie y Sáb 17:30 a 01:00</p>
+      ) : variant === "schedule" || variant === "full" ? (
+        <ul className="opening-hours__list">
+          {openingHours.map((period) => (
+            <li key={period.shortLabel}>
+              <span>{period.label}</span>
+              <span>{period.opens} a {period.closes}</span>
+            </li>
+          ))}
+        </ul>
+      ) : null}
     </div>
   );
 }
+
+export default OpeningHours;

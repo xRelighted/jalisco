@@ -1,11 +1,9 @@
-import { Toaster } from "@/components/ui/sonner";
-import { TooltipProvider } from "@/components/ui/tooltip";
 import { lazy, Suspense, useEffect } from "react";
 import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
 import ErrorBoundary from "./components/ErrorBoundary";
 import SiteLayout from "./components/SiteLayout";
 import { ThemeProvider } from "./contexts/ThemeContext";
-const Home = lazy(() => import("./pages/Home"));
+import Home from "./pages/Home";
 const MenuPage = lazy(() => import("./pages/Menu"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 const Reservations = lazy(() => import("./pages/Reservations"));
@@ -40,5 +38,5 @@ function PageMetadata() {
 }
 
 export default function App() {
-  return <ErrorBoundary><ThemeProvider defaultTheme="light"><TooltipProvider><Toaster /><BrowserRouter><PageMetadata /><Suspense fallback={<div className="page-loading" role="status" aria-label="Cargando"><span /></div>}><Routes><Route element={<SiteLayout />}><Route index element={<Home />} /><Route path="menu" element={<MenuPage />} /><Route path="reservas" element={<Reservations />} /><Route path="*" element={<NotFound />} /></Route></Routes></Suspense></BrowserRouter></TooltipProvider></ThemeProvider></ErrorBoundary>;
+  return <ErrorBoundary><ThemeProvider defaultTheme="light"><BrowserRouter><PageMetadata /><Suspense fallback={<div className="page-loading" role="status" aria-label="Cargando"><span /></div>}><Routes><Route element={<SiteLayout />}><Route index element={<Home />} /><Route path="menu" element={<MenuPage />} /><Route path="reservas" element={<Reservations />} /><Route path="*" element={<NotFound />} /></Route></Routes></Suspense></BrowserRouter></ThemeProvider></ErrorBoundary>;
 }
