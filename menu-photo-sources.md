@@ -76,4 +76,3 @@ Las 33 imágenes de las galerías son fotografías de stock servidas desde el al
 1. [Mojito with mint](https://www.pexels.com/photo/refreshing-mojito-cocktail-with-mint-garnish-37662775/) — alt: “Mojito con hojas de menta y hielo; foto de referencia.”
 2. [Gin and tonic](https://www.pexels.com/photo/close-up-of-a-glass-with-a-cold-cocktail-standing-on-a-table-16550820/) — alt: “Gin tonic con guarnición de cítricos; foto de referencia.”
 3. [Fernet and cola](https://www.pexels.com/photo/refreshing-fernet-and-cola-in-buenos-aires-bar-34328347/) — alt: “Vaso de Fernet con cola y hielo; foto de referencia.”
-
