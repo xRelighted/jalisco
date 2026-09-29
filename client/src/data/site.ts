@@ -109,9 +109,69 @@ export const metadataForPath = (path: string) => routeMetadata[path as keyof typ
 export const canonicalForPath = (path: string) => `${siteUrl}${path}`;
 export const whatsappReservation = `https://api.whatsapp.com/send/?phone=595972237682&text=${encodeURIComponent("Hola Jalisco, quisiera coordinar una reserva.")}`;
 export const instagramHandle = "@jaliscopy";
-export const menuAccents = ["terracotta", "mustard", "turquoise"] as const;
+export const menuAccents = ["red", "green", "gold"] as const;
 export const menuIcons = ["UsersRound", "Popcorn", "Sandwich", "UtensilsCrossed", "CookingPot", "Wine", "Snowflake", "Citrus", "GlassWater", "Beer", "CupSoda"] as const;
 export const safeExternalLink = { target: "_blank", rel: "noopener noreferrer" } as const;
 export const sectionIds = { history: "historia", menu: "menu-preview", gallery: "galeria", instagram: "instagram", location: "ubicacion" } as const;
 export const isCompleteMenu = menu.length === 11 && menuItems.length === 66;
 export const allPhotosHaveAlt = photos.every(({ alt }) => Boolean(alt));
+
+export type MenuCategoryPhoto = { src: string; alt: string };
+const menuPhotoStorage = `${imageStorageSiteUrl}/manus-storage/`;
+export const menuCategoryPhotos: MenuCategoryPhoto[][] = [
+  [
+    { src: `${menuPhotoStorage}menu-01-1_6aef6541.webp`, alt: "Bandeja de cocina mexicana con tortillas y acompañamientos; foto de referencia." },
+    { src: `${menuPhotoStorage}menu-01-2_567a8627.webp`, alt: "Plato de comida mexicana con varios ingredientes para compartir; foto de referencia." },
+    { src: `${menuPhotoStorage}menu-01-3_368d488e.webp`, alt: "Totopos con queso y jalapeños en un plato; foto de referencia." },
+  ],
+  [
+    { src: `${menuPhotoStorage}menu-02-1_d195c0e7.webp`, alt: "Papas fritas con queso fundido; foto de referencia." },
+    { src: `${menuPhotoStorage}menu-02-2_b173a6df.webp`, alt: "Nachos con jalapeños y queso; foto de referencia." },
+    { src: `${menuPhotoStorage}menu-02-3_59f018f7.webp`, alt: "Alitas de pollo y papas fritas; foto de referencia." },
+  ],
+  [
+    { src: `${menuPhotoStorage}menu-03-1_e1e8b116.webp`, alt: "Burrito de estilo mexicano con relleno visible; foto de referencia." },
+    { src: `${menuPhotoStorage}menu-03-2_b8a9f6f7.webp`, alt: "Burrito de estilo mexicano sostenido en una mano, con el relleno asomando; foto de referencia." },
+    { src: `${menuPhotoStorage}menu-03-3_371739af.webp`, alt: "Burrito mexicano servido con guarnición; foto de referencia." },
+  ],
+  [
+    { src: `${menuPhotoStorage}menu-04-1_cb3e2ecb.webp`, alt: "Tacos mexicanos con cebolla y lima; foto de referencia." },
+    { src: `${menuPhotoStorage}menu-04-2_41c8c37f.webp`, alt: "Variedad de tacos mexicanos servidos en un plato; foto de referencia." },
+    { src: `${menuPhotoStorage}menu-04-3_a562c7fe.webp`, alt: "Tacos de birria acompañados de consomé; foto de referencia." },
+  ],
+  [
+    { src: `${menuPhotoStorage}menu-05-1_7476af52.webp`, alt: "Quesadillas doradas con salsa; foto de referencia." },
+    { src: `${menuPhotoStorage}menu-05-2_822feea4.webp`, alt: "Quesadilla rellena de queso fundido; foto de referencia." },
+    { src: `${menuPhotoStorage}menu-05-3_4e5f02b1.webp`, alt: "Quesadilla de cocina mexicana con lima; foto de referencia." },
+  ],
+  [
+    { src: `${menuPhotoStorage}menu-06-1_7b2ab5f0.webp`, alt: "Copa de margarita con lima; foto de referencia." },
+    { src: `${menuPhotoStorage}menu-06-2_7b03ea1d.webp`, alt: "Michelada con hielo y borde salado; foto de referencia." },
+    { src: `${menuPhotoStorage}menu-06-3_9d1741ec.webp`, alt: "Shot de tequila con lima y sal; foto de referencia." },
+  ],
+  [
+    { src: `${menuPhotoStorage}menu-07-1_6261fec7.webp`, alt: "Daiquiri de fresa en una copa; foto de referencia." },
+    { src: `${menuPhotoStorage}menu-07-2_6977dfba.webp`, alt: "Piña colada con guarnición de piña; foto de referencia." },
+    { src: `${menuPhotoStorage}menu-07-3_8fd46496.webp`, alt: "Cóctel frutal de durazno; foto de referencia." },
+  ],
+  [
+    { src: `${menuPhotoStorage}menu-08-1_1cdbfc51.webp`, alt: "Caipiriña con lima y hielo; foto de referencia." },
+    { src: `${menuPhotoStorage}menu-08-2_2b4488af.webp`, alt: "Cóctel caipiriña con guarnición fresca; foto de referencia." },
+    { src: `${menuPhotoStorage}menu-08-3_8627c364.webp`, alt: "Preparación de cóctel cítrico con fruta machacada; foto de referencia." },
+  ],
+  [
+    { src: `${menuPhotoStorage}menu-09-1_07bcc510.webp`, alt: "Jarra de sangría frutal servida para compartir; foto de referencia." },
+    { src: `${menuPhotoStorage}menu-09-2_911fdc0a.webp`, alt: "Jarra de bebida frutal con cerezas; foto de referencia." },
+    { src: `${menuPhotoStorage}menu-09-3_d6b017e9.webp`, alt: "Jarra de bebida frutal con hielo y cítricos; foto de referencia." },
+  ],
+  [
+    { src: `${menuPhotoStorage}menu-10-1_8f40d93b.webp`, alt: "Botellas de cerveza frías en una mesa; foto de referencia." },
+    { src: `${menuPhotoStorage}menu-10-2_45d07e99.webp`, alt: "Vaso de cerveza fría con espuma; foto de referencia." },
+    { src: `${menuPhotoStorage}menu-10-3_285e91f1.webp`, alt: "Vasos de cerveza servidos en una mesa; foto de referencia." },
+  ],
+  [
+    { src: `${menuPhotoStorage}menu-11-1_f2e9bc0e.webp`, alt: "Mojito con hojas de menta y hielo; foto de referencia." },
+    { src: `${menuPhotoStorage}menu-11-2_8f581b46.webp`, alt: "Gin tonic con guarnición de cítricos; foto de referencia." },
+    { src: `${menuPhotoStorage}menu-11-3_03266f27.webp`, alt: "Vaso de Fernet con cola y hielo; foto de referencia." },
+  ],
+];

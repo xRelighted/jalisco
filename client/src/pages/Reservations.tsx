@@ -1,6 +1,7 @@
 import { ArrowUpRight, Clock3, MapPin } from "lucide-react";
 import { business, copy, locations, safeExternalLink, whatsappReservation } from "@/data/site";
 import { ScrollReveal } from "@/components/SiteLayout";
+import OpeningHours from "@/components/OpeningHours";
 
 export default function Reservations() {
   return (
@@ -48,7 +49,7 @@ export default function Reservations() {
                 </div>
                 <div className="location-card__block">
                   <Clock3 size={20} aria-hidden="true" />
-                  <div>{location.hours.map((hour) => <p key={hour}>{hour}</p>)}</div>
+                  <OpeningHours />
                 </div>
                 <a className="button button--dark" href={location.directions} {...safeExternalLink}>
                   Abrir en Google Maps<ArrowUpRight size={17} />

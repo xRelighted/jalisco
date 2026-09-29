@@ -1,8 +1,7 @@
-import { m } from "framer-motion";
 import { ArrowUp, ArrowUpRight, Beer, Check, Citrus, CookingPot, CupSoda, GlassWater, Popcorn, Sandwich, Share2, Snowflake, UtensilsCrossed, UsersRound, Wine } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { individualOrderLink, business, copy, formatPrice, menuFacts, menuAccents, pedidosYaIcon, photos, safeExternalLink, siteUrl } from "@/data/site";
+import { individualOrderLink, business, copy, formatPrice, menuFacts, menuAccents, menuCategoryPhotos, pedidosYaIcon, photos, safeExternalLink, siteUrl } from "@/data/site";
 import { ScrollReveal, WhatsappMark } from "@/components/SiteLayout";
 import ResponsiveImage from "@/components/ResponsiveImage";
 import { menu } from "@/data/menu";
@@ -86,10 +85,15 @@ export default function MenuPage() {
           {index === 5 && <div className="menu-page__chapter menu-page__chapter--drinks"><h2>Bebidas</h2><span>Algo para brindar</span></div>}
           <section id={menuCategoryId(index)} data-index={index} className={`menu-page__category menu-page__category--${index % 2 ? "alternate" : "paper"} menu-accent--${menuAccents[index % menuAccents.length]}`} aria-labelledby={`category-title-${index}`}>
             <header className="menu-page__category-heading-wrap"><div className="menu-page__category-title"><span>{String(index + 1).padStart(2, "0")}</span><h3 id={`category-title-${index}`}>{category.categoria}</h3><span>{String(category.items.length).padStart(2, "0")} opciones</span></div></header>
-            <div className="menu-page__grid">{category.items.map((item, itemIndex) => <m.details className="menu-page__item" key={`${item.nombre}-${itemIndex}`} initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: .15 }} transition={{ duration: .3, delay: (itemIndex % 6) * .025 }}>
-              <summary className="menu-page__summary" aria-label={`Mostrar pedido para ${item.nombre}, ${formatPrice(item.precio)}`}><Icon size={19} aria-hidden="true" /><span className="menu-page__dishline"><span className="menu-page__dish">{item.nombre}</span><span className="menu-page__leader" aria-hidden="true" /></span><span className="menu-page__price">{formatPrice(item.precio)}</span><span className="menu-page__preview">Ver opción de pedido<ArrowUpRight size={12} aria-hidden="true" /></span></summary>
+            <ul className="menu-page__gallery" aria-label={`Fotos ilustrativas: ${category.categoria}`}>
+              {(menuCategoryPhotos[index] ?? []).map((photo, photoIndex) => <li key={photo.src}>
+                <figure><picture><img src={photo.src} width="1000" height="750" alt={photo.alt} loading={index === 0 && photoIndex === 0 ? "eager" : "lazy"} fetchPriority={index === 0 && photoIndex === 0 ? "high" : "auto"} decoding="async" /></picture></figure>
+              </li>)}
+            </ul>
+            <div className="menu-page__grid">{category.items.map((item, itemIndex) => <details className="menu-page__item" key={`${item.nombre}-${itemIndex}`}>
+              <summary className="menu-page__summary" aria-label={`Mostrar pedido para ${item.nombre}, ${formatPrice(item.precio)}`}><Icon size={19} aria-hidden="true" /><span className="menu-page__dishline"><span className="menu-page__dish">{item.nombre}</span><span className="menu-page__leader" aria-hidden="true" /><span className="menu-page__description">{item.descripcion}</span></span><span className="menu-page__price">{formatPrice(item.precio)}</span><span className="menu-page__preview">Ver opción de pedido<ArrowUpRight size={12} aria-hidden="true" /></span></summary>
               <div className="menu-page__item-action"><span>Por WhatsApp</span><a className="menu-page__order" href={individualOrderLink(item.nombre)} {...safeExternalLink}>Pedir este<ArrowUpRight size={13} aria-hidden="true" /></a></div>
-            </m.details>)}</div>
+            </details>)}</div>
           </section>
         </div>;
       })}

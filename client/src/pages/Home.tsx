@@ -3,6 +3,7 @@ import { ArrowUpRight, Clock3, Instagram, MapPin } from "lucide-react";
 import { Link } from "react-router-dom";
 import { business, copy, featuredMenu, formatPrice, locations, orderLink, pedidosYaIcon, photos, safeExternalLink, sectionIds, storyStats } from "@/data/site";
 import { ScrollReveal, WhatsappMark } from "@/components/SiteLayout";
+import OpeningHours from "@/components/OpeningHours";
 import ResponsiveImage from "@/components/ResponsiveImage";
 
 const heroStagger: Variants = { hidden: {}, show: { transition: { staggerChildren: .1, delayChildren: .07 } } };
@@ -58,7 +59,7 @@ export default function Home() {
     <section className="location section-pad" id={sectionIds.location} aria-labelledby="location-title">
       <div className="section-wrap"><ScrollReveal className="location-heading"><h2 id="location-title">{copy.locationTitle}</h2><a className="text-link" href={locations[0].directions} {...safeExternalLink}>Abrir en Google Maps<ArrowUpRight size={16} /></a></ScrollReveal>
         {locations.map((location) => <ScrollReveal className="location__grid" delay={.05} key={location.id}><div className="map-frame"><iframe title={`Mapa de ${location.name}: ${location.address}`} src={location.mapEmbed} loading="lazy" referrerPolicy="no-referrer-when-downgrade" allowFullScreen /></div>
-          <div className="location-card"><div className="location-card__topline">{location.name}</div><div className="location-card__block"><MapPin size={20} aria-hidden="true" /><p>{location.address}</p></div><div className="location-card__block"><Clock3 size={20} aria-hidden="true" /><div>{location.hours.map((hour) => <p key={hour}>{hour}</p>)}</div></div><a className="button button--dark" href={location.directions} {...safeExternalLink}>Abrir en Google Maps<ArrowUpRight size={16} /></a></div>
+          <div className="location-card"><div className="location-card__topline">{location.name}</div><div className="location-card__block"><MapPin size={20} aria-hidden="true" /><p>{location.address}</p></div><div className="location-card__block location-card__hours"><Clock3 size={20} aria-hidden="true" /><OpeningHours /></div><a className="button button--dark" href={location.directions} {...safeExternalLink}>Abrir en Google Maps<ArrowUpRight size={16} /></a></div>
         </ScrollReveal>)}
       </div>
     </section>

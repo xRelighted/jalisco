@@ -43,31 +43,44 @@
 }
 
 :root {
-  --ink: #1c1917;
+  --color-bg-dark: #14100c;
+  --color-red: #c1272d;
+  --color-green: #2e7d46;
+  --color-gold: #e3a73b;
+  --color-orange: #d9631e;
+  --color-cream: #f5efe6;
+  --brand-dark: var(--color-bg-dark);
+  --brand-red: var(--color-red);
+  --brand-green: var(--color-green);
+  --brand-gold: var(--color-gold);
+  --brand-orange: var(--color-orange);
+  --brand-cream: var(--color-cream);
+  --ink: var(--brand-dark);
   --ink-soft: #29231f;
-  --paper: #f2ede4;
+  --paper: var(--brand-cream);
   --paper-deep: #e8dfd1;
-  --bone: #f5efe6;
-  --terracotta: #d9631e;
-  --terracotta-dark: #a83f0d;
-  --mustard: #e8a33d;
-  --turquoise: #2aa8a0;
-  --rose: #e85a8a;
+  --bone: var(--brand-cream);
+  --terracotta: var(--brand-red);
+  --terracotta-dark: #8e2025;
+  --mustard: var(--brand-gold);
+  --turquoise: var(--brand-green);
+  --rose: var(--brand-red);
+  --gold-ink: #805511;
   --line: rgba(55, 42, 32, 0.16);
   --font-display: "Fraunces", Georgia, serif;
   --font-body: "Inter", Arial, sans-serif;
   --radius: 0.65rem;
-  --primary: #d9631e;
+  --primary: var(--brand-red);
   --primary-foreground: #fff6e8;
-  --sidebar-primary: #d9631e;
+  --sidebar-primary: var(--brand-red);
   --sidebar-primary-foreground: #fff6e8;
-  --chart-1: #d9631e;
-  --chart-2: #e8a33d;
-  --chart-3: #2aa8a0;
-  --chart-4: #e85a8a;
+  --chart-1: var(--brand-red);
+  --chart-2: var(--brand-gold);
+  --chart-3: var(--brand-green);
+  --chart-4: var(--brand-orange);
   --chart-5: #4d7361;
-  --background: #f2ede4;
-  --foreground: #1c1917;
+  --background: var(--brand-cream);
+  --foreground: var(--brand-dark);
   --card: #f8f4ed;
   --card-foreground: #1c1917;
   --popover: #f8f4ed;
@@ -76,24 +89,24 @@
   --secondary-foreground: #34291f;
   --muted: #e8dfd1;
   --muted-foreground: #5b5147;
-  --accent: #e8a33d;
+  --accent: var(--brand-gold);
   --accent-foreground: #1c1917;
   --destructive: #b91c1c;
   --destructive-foreground: #fff7ed;
   --border: rgba(55, 42, 32, 0.16);
   --input: rgba(55, 42, 32, 0.22);
-  --ring: #d9631e;
+  --ring: var(--brand-red);
   --sidebar: #f8f4ed;
   --sidebar-foreground: #1c1917;
   --sidebar-accent: #e8dfd1;
   --sidebar-accent-foreground: #1c1917;
   --sidebar-border: rgba(55, 42, 32, 0.16);
-  --sidebar-ring: #d9631e;
+  --sidebar-ring: var(--brand-red);
 }
 
 .dark {
-  --background: #1c1917;
-  --foreground: #f5efe6;
+  --background: var(--brand-dark);
+  --foreground: var(--brand-cream);
   --card: #29231f;
   --card-foreground: #f5efe6;
   --popover: #29231f;
@@ -102,7 +115,7 @@
   --secondary-foreground: #f5efe6;
   --muted: #342d27;
   --muted-foreground: #c8bcae;
-  --accent: #e8a33d;
+  --accent: var(--brand-gold);
   --accent-foreground: #1c1917;
   --border: rgba(245, 239, 230, 0.14);
   --input: rgba(245, 239, 230, 0.2);
@@ -842,3 +855,77 @@ html, body { width: 100%; max-width: 100%; overflow-x: clip; }
 @media (prefers-reduced-motion: reduce) {
   .skip-link, .menu-back-top { transition: none; }
 }
+
+
+/* PRD v2: colores de marca, descripciones, fotografías de carta y horarios. */
+:root {
+  --brand-diamond-pattern: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='12' viewBox='0 0 48 12'%3E%3Cpath fill='%23C1272D' d='M6 0 12 6 6 12 0 6z'/%3E%3Cpath fill='%232E7D46' d='M18 0 24 6 18 12 12 6z'/%3E%3Cpath fill='%23E3A73B' d='M30 0 36 6 30 12 24 6z'/%3E%3Cpath fill='%23D9631E' d='M42 0 48 6 42 12 36 6z'/%3E%3C/svg%3E");
+}
+.button--terracotta { color: var(--brand-cream); background: var(--brand-red); }
+.button--terracotta:hover { background: #a91f25; }
+.menu-accent--red { --category-accent: var(--brand-red); }
+.menu-accent--green { --category-accent: var(--brand-green); }
+.menu-accent--gold { --category-accent: var(--gold-ink); }
+.menu-page__dishline { display: grid; grid-template-columns: auto minmax(12px,1fr); align-items: baseline; gap: 2px 8px; }
+.menu-page__description { grid-column: 1 / -1; max-width: 58ch; color: #55483c; font: 400 11px/1.5 var(--font-body); text-wrap: pretty; }
+
+.hero::before, .menu-hero::before, .menu-hero::after, .footer::before {
+  content: "";
+  display: block;
+  height: 10px;
+  background-image: var(--brand-diamond-pattern);
+  background-repeat: repeat-x;
+  background-size: 48px 12px;
+  pointer-events: none;
+}
+.hero::before { position: absolute; z-index: 2; inset: 0 0 auto; height: 10px; }
+.menu-hero::before, .menu-hero::after { position: absolute; z-index: 2; inset-inline: 0; height: 9px; }
+.menu-hero::before { top: 0; }
+.menu-hero::after { top: auto; bottom: 0; }
+.footer::before { height: 10px; margin-bottom: 32px; }
+
+.menu-page__gallery { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 12px; margin: 0 0 22px; padding: 0; list-style: none; }
+.menu-page__gallery > li { min-width: 0; }
+.menu-page__gallery figure { margin: 0; }
+.menu-page__gallery picture { display: block; overflow: hidden; aspect-ratio: 4 / 3; border-radius: 5px; background: #d8c8b5; }
+.menu-page__gallery img { width: 100%; height: 100%; object-fit: cover; transition: transform .3s cubic-bezier(.23,1,.32,1); }
+.menu-page__gallery picture:hover img { transform: scale(1.025); }
+.menu-accent--gold { --category-brand-color: var(--brand-gold); }
+
+.opening-hours { min-width: 0; width: min(100%, 340px); }
+.opening-hours__status { display: inline-flex; align-items: center; gap: 8px; min-height: 29px; margin-bottom: 8px; color: #65594d; font-size: 11px; font-weight: 700; line-height: 1.35; }
+.opening-hours__status-dot { width: 9px; height: 9px; flex: 0 0 9px; border-radius: 50%; background: #7b6e61; box-shadow: 0 0 0 3px rgba(123,110,97,.12); }
+.opening-hours__status--open .opening-hours__status-dot { background: var(--brand-green); box-shadow: 0 0 0 3px rgba(46,125,70,.14); }
+.opening-hours__status--closed .opening-hours__status-dot { background: var(--brand-red); box-shadow: 0 0 0 3px rgba(193,39,45,.12); }
+.opening-hours__table { width: 100%; border-collapse: collapse; font-size: 12px; line-height: 1.45; }
+.opening-hours__table tr + tr { border-top: 1px solid rgba(55,42,32,.12); }
+.opening-hours__table th, .opening-hours__table td { padding: 7px 0; text-align: left; }
+.opening-hours__table th { color: #443a31; font-weight: 550; }
+.opening-hours__table td { color: var(--terracotta-dark); font-weight: 750; text-align: right; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.location-card__hours { align-items: flex-start; }
+.location-card__hours > svg { margin-top: 3px; flex: 0 0 auto; }
+.location-card__hours .opening-hours { flex: 1; }
+
+@media (max-width: 767px) {
+  .menu-page__gallery { display: flex; gap: 10px; margin: 0 -16px 18px; padding: 0 16px 7px; overflow-x: auto; overscroll-behavior-inline: contain; scroll-snap-type: x mandatory; scrollbar-width: thin; }
+  .menu-page__gallery > li { flex: 0 0 min(76%, 310px); scroll-snap-align: start; }
+  .menu-page__description { font-size: 11px; line-height: 1.5; }
+  .footer::before { margin-bottom: 22px; }
+  .opening-hours { width: 100%; }
+  .opening-hours__table th, .opening-hours__table td { padding-block: 6px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .menu-page__gallery img { transition: none; }
+}
+
+/* Contraste AA y colores auténticos en trazos/elementos del menú. */
+:root { --green-ink: #286b3d; --talavera: var(--brand-green); }
+.hero { background-color: var(--brand-dark); }
+.menu-accent--green { --category-accent: var(--green-ink); --category-brand-color: var(--brand-green); }
+.menu-page__chapter { border-bottom-color: rgba(46,125,70,.32); }
+.menu-page__chapter::after { border-bottom-color: rgba(46,125,70,.38); }
+.menu-page__category { border-left-color: var(--category-brand-color,var(--category-accent)); }
+.menu-page__category::after { background-image: repeating-linear-gradient(90deg,var(--category-brand-color,var(--category-accent)) 0 3px,transparent 3px 8px); }
+.menu-page__category-title { border-bottom-color: color-mix(in srgb,var(--category-brand-color,var(--category-accent)) 38%,transparent); }
+.menu-page__content > div + div::before { background: repeating-linear-gradient(45deg,transparent 0 5px,var(--brand-green) 5px 7px,transparent 7px 12px),repeating-linear-gradient(-45deg,transparent 0 5px,var(--brand-orange) 5px 7px,transparent 7px 12px); }
+.menu-hero__talavera { background-image: radial-gradient(circle at 50% 50%,transparent 0 17%,rgba(227,194,142,.9) 18% 19%,transparent 20% 38%,rgba(46,125,70,.9) 39% 41%,transparent 42%),repeating-conic-gradient(from 45deg at 50% 50%,rgba(245,239,230,.5) 0deg 2deg,transparent 2deg 45deg); }
