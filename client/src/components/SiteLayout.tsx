@@ -57,7 +57,6 @@ export default function SiteLayout() {
     <a className="skip-link" href="#contenido">Saltar al contenido</a>
     <header className={`site-nav ${scrolled ? "site-nav--scrolled" : ""}`}><div className="nav-inner">
       <Link className="brand" to="/" aria-label={`${business.name}, inicio`}><BrandLogo /><span className="brand__wordmark"><span>Jalisco</span><small>Mexican grill</small></span></Link>
-      <div className="nav-open-chip"><OpeningHours variant="status" /></div>
       <nav className="desktop-nav" aria-label="Navegación principal"><Link to="/menu">Menú</Link><Link to="/reservas">Reservas</Link><InstagramLink /></nav>
       <a className="mobile-instagram" href={business.instagram} target="_blank" rel="noopener noreferrer" aria-label={`Instagram ${instagramHandle}`}><Instagram size={19} aria-hidden="true" /></a>
       <button className="mobile-nav-toggle" type="button" aria-label={mobileOpen ? "Cerrar menú" : "Abrir menú"} aria-expanded={mobileOpen} onClick={() => setMobileOpen((value) => !value)}>{mobileOpen ? <X size={21} /> : <MenuIcon size={21} />}</button>

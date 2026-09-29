@@ -3,9 +3,9 @@ import { individualOrderLink, formatPrice, safeExternalLink } from "@/data/site"
 import { featuredMedia } from "@/data/media";
 import type { FeaturedDish } from "@/data/featured";
 
-type Props = { dish: FeaturedDish; index: number };
+type Props = { dish: FeaturedDish };
 
-export default function FeaturedDishCard({ dish, index }: Props) {
+export default function FeaturedDishCard({ dish }: Props) {
   const media = featuredMedia[dish.imageKey];
   return (
     <article className="featured-dish-card" style={{ "--featured-focal": dish.focalPoint } as React.CSSProperties}>
@@ -16,7 +16,7 @@ export default function FeaturedDishCard({ dish, index }: Props) {
           <img src={media.webp1024} width="1024" height="768" alt={dish.alt} loading="lazy" decoding="async" />
         </picture>
         <span className="featured-dish-card__price">{formatPrice(dish.precio)}</span>
-        {index === 0 && <span className="featured-dish-card__ribbon">Más pedido</span>}
+        {dish.recomendadoPorLaCasa && <span className="featured-dish-card__ribbon">Recomendado por la casa</span>}
       </a>
       <div className="featured-dish-card__copy">
         <p className="featured-dish-card__category">{dish.category}</p>

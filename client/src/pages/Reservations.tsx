@@ -2,7 +2,7 @@ import { ArrowUpRight, Clock3, MapPin } from "lucide-react";
 import { business, copy, locations, safeExternalLink, whatsappReservation } from "@/data/site";
 import { ScrollReveal, WhatsappMark } from "@/components/SiteLayout";
 import OpeningHours from "@/components/OpeningHours";
-import MapFacade from "@/components/MapFacade";
+import GoogleMapsEmbed from "@/components/GoogleMapsEmbed";
 
 export default function Reservations() {
   const location = locations[0];
@@ -38,11 +38,11 @@ export default function Reservations() {
         <div className="section-wrap">
           <ScrollReveal><h2 id="reservations-location-title">{copy.locationTitle}</h2></ScrollReveal>
           <div className="location__grid">
-            <MapFacade title={location.name} address={location.address} embedUrl={location.mapEmbed} directionsUrl={location.directions} />
+            <GoogleMapsEmbed title={location.name} address={location.address} embedUrl={location.mapEmbed} directionsUrl={location.directions} />
             <div className="location-card">
               <div className="location-card__topline">{location.name}</div>
               <div className="location-card__block"><MapPin size={20} aria-hidden="true" /><p>{location.address}</p></div>
-              <div className="location-card__block location-card__hours"><OpeningHours /></div>
+              <div className="location-card__block location-card__hours"><OpeningHours variant="schedule" /></div>
               <a className="button button--dark" href={location.directions} {...safeExternalLink}>Abrir en Google Maps<ArrowUpRight size={16} /></a>
             </div>
           </div>

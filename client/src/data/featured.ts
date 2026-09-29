@@ -4,7 +4,7 @@ const featuredRecords = [
   {
     category: "Los combos más chingones",
     name: "Botana pa 2",
-    badge: "Más pedido",
+    recomendadoPorLaCasa: true,
     alt: "Botana mexicana para compartir, con totopos, salsas, quesadillas y acompañamientos. Foto referencial.",
     imageKey: "botana",
     focalPoint: "50% 50%",
@@ -15,6 +15,7 @@ const featuredRecords = [
   {
     category: "Los combos más chingones",
     name: "Fajitas de res",
+    recomendadoPorLaCasa: true,
     alt: "Fajitas mexicanas con carne a la parrilla, verduras, tortillas y salsas. Foto referencial.",
     imageKey: "fajitas",
     focalPoint: "50% 50%",
@@ -25,6 +26,7 @@ const featuredRecords = [
   {
     category: "Pa picar",
     name: "Nachos Jalisco",
+    recomendadoPorLaCasa: true,
     alt: "Nachos con queso fundido, jalapeños y tomate en cubos; fotografía referencial.",
     imageKey: "nachos",
     focalPoint: "50% 50%",
@@ -35,6 +37,7 @@ const featuredRecords = [
   {
     category: "Tacos (incluye 4 tacos y 2 salsas)",
     name: "Tacos de birria",
+    recomendadoPorLaCasa: true,
     alt: "Tacos de birria acompañados de consomé y rábanos frescos; foto referencial.",
     imageKey: "birria",
     focalPoint: "50% 66%",

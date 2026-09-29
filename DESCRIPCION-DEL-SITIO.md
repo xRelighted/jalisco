@@ -10,7 +10,7 @@ Es un sitio de restaurante mexicano diseñado para convertir visitas móviles en
 
 ## Dirección visual
 
-La identidad combina una base oscura, tonos de papel y colores inspirados en la gráfica popular mexicana:
+La identidad combina una base oscura y tonos de papel con la paleta vigente inspirada en el logo y el arte del menú impreso:
 
 - **Carbón oscuro** `#14100c` para navegación, hero, fondos y pie de página.
 - **Crema** `#f5efe6` y arena `#e8dfd1` para lectura, fichas y descansos visuales.
@@ -25,10 +25,9 @@ Las cenefas geométricas, el motivo de papel picado, las referencias a talavera 
 
 1. **Hero fotográfico** con nombre, propuesta breve —«Tacos, tequila y buena onda»— y estado actual de apertura.
 2. Accesos directos a **WhatsApp**, al menú y a reservas, más disponibilidad por **PedidosYa**.
-3. Franja animada de palabras asociadas al restaurante.
-4. Selección de cuatro platos destacados, con descripción, precio e inicio de pedido por WhatsApp. La tarjeta de **Tacos de birria** muestra **Gs. 85.000**.
-5. Historia breve del restaurante, estadísticas de la carta, galería fotográfica y enlaces a Instagram.
-6. Dirección, horarios, acceso a Google Maps y pie de página con contactos repetidos.
+3. Selección editorial de cuatro platos recomendados por la casa, con descripción, precio e inicio de pedido por WhatsApp. La tarjeta de **Tacos de birria** muestra **Gs. 85.000**; las imágenes están identificadas como referenciales.
+4. Historia breve del restaurante, estadísticas de la carta, galería fotográfica y enlaces a Instagram.
+5. Dirección, horarios, un mapa real de Google Maps y pie de página con contactos.
 
 ### Menú (`/menu`)
 
@@ -38,7 +37,7 @@ El precio de Tacos de birria se mantiene en **Gs. 85.000** tanto en la carta com
 
 ### Reservas (`/reservas`)
 
-Explica la reserva en un bloque hero, ofrece el enlace al sistema de reservas del negocio y una alternativa por WhatsApp. Repite los horarios y la dirección, y añade mapa, acceso a indicaciones y una invitación a consultar por mensajería. El mapa comienza como una fachada ligera para no bloquear el contenido y solo carga la integración interactiva cuando el usuario lo solicita.
+Explica la reserva en un bloque hero, ofrece el enlace al sistema de reservas del negocio y una alternativa por WhatsApp. Muestra el estado de apertura una sola vez en la tarjeta horaria del hero; más abajo conserva el horario, la dirección, el mapa real de Google Maps y el acceso a indicaciones.
 
 ## Horarios y estado de apertura
 
@@ -48,7 +47,7 @@ Los horarios que se muestran en Inicio, Reservas y el pie son:
 - **Viernes y sábados:** 17:30–01:00.
 - **Domingo:** no se publica como día de atención.
 
-El indicador «Abierto ahora / Cerrado ahora» calcula la hora local del negocio y contempla el cierre que atraviesa la medianoche: por ejemplo, el servicio del sábado puede seguir abierto hasta la 01:00 del domingo, sin presentar el domingo como un turno independiente. Paraguay mantiene oficialmente UTC−3 todo el año desde octubre de 2024 (Ley N.º 7.354/2024; [Agencia IP Paraguay](https://www.ip.gov.py/ip/2024/10/15/paraguay-establece-el-horario-de-verano-durante-todo-el-ano/)); el código usa ese offset fijo para evitar errores en runtimes con una base de zonas horarias antigua.
+El indicador «Abierto ahora / Cerrado ahora» aparece una sola vez por vista: en la tarjeta horaria del hero de Inicio y de Reservas. Calcula la hora local del negocio y contempla el cierre que atraviesa la medianoche: por ejemplo, el servicio del sábado puede seguir abierto hasta la 01:00 del domingo, sin presentar el domingo como un turno independiente. Paraguay mantiene oficialmente UTC−3 todo el año desde octubre de 2024 (Ley N.º 7.354/2024; [Agencia IP Paraguay](https://www.ip.gov.py/ip/2024/10/15/paraguay-establece-el-horario-de-verano-durante-todo-el-ano/)); el código usa ese offset fijo para evitar errores en runtimes con una base de zonas horarias antigua.
 
 ## Conversión e interacción
 
@@ -75,7 +74,7 @@ También incluye enlace para saltar al contenido, encabezados y regiones semánt
 - **Fuentes WOFF2 autoalojadas y subseteadas** para Fraunces e Inter.
 - **Vercel** para servir el frontend estático y resolver rutas SPA.
 
-El comando de build establece ahora `NODE_ENV=production`; esto es importante porque el entorno de desarrollo heredado podía hacer que Vite eligiera React DOM de desarrollo para el artefacto de release. El mapa del menú usa una vista inicial ligera y carga la integración solo por interacción.
+El comando de build establece `NODE_ENV=production` para que Vite genere el bundle de release con React DOM de producción. El mapa embebido de la ubicación usa carga diferida nativa (`loading="lazy"`) y apunta a la dirección real del restaurante.
 
 ## SEO y descubrimiento
 

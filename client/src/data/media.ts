@@ -28,6 +28,14 @@ export const menuCategoryMedia = menuAlts.map((alts, categoryIndex) => alts.map(
   const name = `menu-${String(categoryIndex+1).padStart(2,"0")}-${photoIndex+1}`;
   return { src: stored(`${name}-768.webp`), avifSet: srcSet(name,[480,768,1024],"avif"), webpSet: srcSet(name,[480,768,1024],"webp"), alt, width: 4, height: 3 };
 }));
+
+menuCategoryMedia.forEach((images, categoryIndex) => {
+  const imageIds = images.map(({ avifSet, src }) => (avifSet.split(",")[0] || src).trim().replace(/\s+\d+w$/, ""));
+  if (new Set(imageIds).size !== imageIds.length) {
+    throw new Error(`Fotos duplicadas en la categoría ${categoryIndex + 1} del menú.`);
+  }
+});
+
 export const hostedFonts = {
   inter: stored("inter-latin.woff2"),
   frauncesLatin: stored("fraunces-latin.woff2"),
