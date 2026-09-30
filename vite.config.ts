@@ -230,6 +230,9 @@ function vitePluginRestaurantHoursSchema(): Plugin {
 }
 
 export default defineConfig(({ command }) => ({
+  define: {
+    "import.meta.env.VITE_PARAGUAY_YEAR": JSON.stringify(new Intl.DateTimeFormat("en", { timeZone: "America/Asuncion", year: "numeric" }).format(new Date())),
+  },
   plugins: [
     vitePluginRestaurantHoursSchema(),
     react(),
@@ -240,8 +243,6 @@ export default defineConfig(({ command }) => ({
   resolve: {
     alias: {
       "@": path.resolve(import.meta.dirname, "client", "src"),
-      "@shared": path.resolve(import.meta.dirname, "shared"),
-      "@assets": path.resolve(import.meta.dirname, "attached_assets"),
     },
   },
   envDir: path.resolve(import.meta.dirname),
@@ -255,7 +256,6 @@ export default defineConfig(({ command }) => ({
           if (!id.includes("node_modules")) return;
           if (/\/node_modules\/(react|react-dom|scheduler)\//.test(id)) return "react-vendor";
           if (/\/node_modules\/(react-router|react-router-dom|@remix-run\/router)\//.test(id)) return "router";
-          if (/\/node_modules\/(framer-motion|motion-dom|motion-utils)\//.test(id)) return "motion";
         },
       },
     },

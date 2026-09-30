@@ -82,11 +82,8 @@ El proyecto contiene metadatos por ruta, canonical y tarjetas Open Graph, ademá
 
 ## Verificación de este release
 
-- `npm run check`: **correcto**.
-- `npm run build` en modo de producción: **correcto**.
-- `/`, `/menu` y `/reservas`: **HTTP 200** en preview.
-- Matriz automatizada de 9 combinaciones de rutas y anchos 375/768/1440: sin errores de consola, overflow ni solapamientos; CTA móvil visible en 375 px.
-- Imágenes de las 11 categorías del menú: **33 cargadas**, sin fallas.
-- Horarios: **11 casos frontera** verificados, incluidos cierres de medianoche y domingo después del turno del sábado.
-- Catálogo: **66 productos / 11 categorías**; Tacos de birria verificado en **Gs. 85.000**.
-- Lighthouse móvil de la build de preview: una corrida final registró **Performance 72, Accessibility 100, Best Practices 100 y SEO 100**. Corridas cercanas fluctuaron; el objetivo de Performance 95 **no queda certificado** por esta medición. La auditoría atribuye una parte relevante del retraso del LCP a la respuesta de los recursos servidos por el proxy/CDN de imágenes; desde el entorno de prueba se observaron TTFB de aproximadamente 2,4–4,2 s en recursos de storage. La configuración del proyecto no controla ese tiempo externo, así que el resultado puede variar por ubicación y estado de la red.
+- `pnpm run check`, `pnpm run build` y `pnpm run test:hours`: **correctos**; los casos horarios pasan **10/10**.
+- Smoke responsive automatizado: **27 combinaciones** en Inicio, Menú y Reservas para anchos 360, 375, 390, 414, 768, 1024, 1280, 1440 y 1920 px; sin fallos de layout ni errores del browser en el harness.
+- Menú: **66 productos / 11 categorías / 33 imágenes** (tres por categoría); Tacos de birria verificado en **Gs. 85.000**.
+- Lighthouse 13.5.0: el detalle de los seis resultados antes/después, LCP, CLS, variación entre repeticiones y el método está en [REPORTE-PRD-V4-QA.md](REPORTE-PRD-V4-QA.md). Performance móvil candidato: Inicio **65–68**, Menú **76**, Reservas **96**; por tanto la meta ≥95 **no está cumplida** para Inicio y Menú. LCP candidato: Inicio **5,1–5,7 s**, Menú **4,2 s**, Reservas **1,9 s**; CLS ≤0,008.
+- La auditoría registró variación asociada a la redirección 307 del storage/CDN de imágenes y un error CORS intermitente de fuente en el preview. El candidato **no se publicó**: el gate de rendimiento móvil sigue pendiente.

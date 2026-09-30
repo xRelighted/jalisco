@@ -1,10 +1,12 @@
-import { ArrowUpRight, Instagram, MapPin, Menu as MenuIcon, X } from "lucide-react";
+import { ArrowUpRight, Instagram, MapPin } from "lucide-react";
 import type { CSSProperties, ReactNode } from "react";
 import { useEffect, useRef, useState } from "react";
-import { Link, Outlet, useLocation } from "react-router-dom";
+import { Link, NavLink, Outlet, useLocation } from "react-router-dom";
 import ResponsiveImage from "@/components/ResponsiveImage";
 import OpeningHours from "@/components/OpeningHours";
-import { brandLogo, business, copy, instagramHandle, locations, pedidosYaIcon, safeExternalLink } from "@/data/site";
+import TrackedLink from "@/components/TrackedLink";
+import { brandLogo, business, copy, instagramHandle, locations, pedidosYaIcon, restaurantSchema, safeExternalLink } from "@/data/site";
+import { Analytics } from "@vercel/analytics/react";
 
 function BrandLogo() {
   return <picture className="brand__seal" aria-hidden="true"><source type="image/webp" srcSet={brandLogo.webp} /><img src={brandLogo.fallback} width={40} height={40} alt="" /></picture>;
@@ -34,45 +36,81 @@ export function ScrollReveal({ children, className = "", delay = 0 }: { children
 }
 
 function InstagramLink() {
-  return <a className="nav-instagram" href={business.instagram} target="_blank" rel="noopener noreferrer" aria-label={`Instagram ${instagramHandle}`}><Instagram size={18} aria-hidden="true" /><span>{instagramHandle}</span></a>;
+  return <TrackedLink className="nav-instagram" href={business.instagram} event="instagram" aria-label={`Instagram ${instagramHandle}, se abre en una pestaña nueva`} {...safeExternalLink}><Instagram size={18} aria-hidden="true" /><span>{instagramHandle}</span></TrackedLink>;
 }
 
 function MobileActionBar() {
   const location = locations[0];
   return <nav className="mobile-action-bar" aria-label="Acciones rápidas">
-    <a className="mobile-action-bar__order" href={business.whatsapp} {...safeExternalLink}><WhatsappMark size={18} /><span>Pedir</span></a>
-    <a className="mobile-action-bar__reserve" href={business.reservations} {...safeExternalLink}><span>Reservar</span><ArrowUpRight size={15} aria-hidden="true" /></a>
-    <a className="mobile-action-bar__directions" href={location.directions} {...safeExternalLink}><MapPin size={18} /><span>Cómo llegar</span></a>
+    <TrackedLink className="mobile-action-bar__order" href={business.whatsapp} event="order_whatsapp" eventData={{ location: "barra" }} {...safeExternalLink}><WhatsappMark size={18} /><span>Pedir</span></TrackedLink>
+    <TrackedLink className="mobile-action-bar__reserve" href={business.reservations} event="reserve" aria-label="Reservar mesa en línea, se abre en una pestaña nueva" {...safeExternalLink}><span>Reservar</span><ArrowUpRight size={15} aria-hidden="true" /></TrackedLink>
+    <TrackedLink className="mobile-action-bar__directions" href={location.directions} event="directions" aria-label="Cómo llegar a Jalisco Mexican Grill en Paseo Deltoto, se abre en una pestaña nueva" {...safeExternalLink}><MapPin size={18} /><span>Cómo llegar</span></TrackedLink>
   </nav>;
+}
+
+function CopyrightYear() {
+  return <span>© {import.meta.env.VITE_PARAGUAY_YEAR} Jalisco Mexican Grill</span>;
+}
+
+function ProductionAnalytics({ route }: { route: string }) {
+  const [enabled, setEnabled] = useState(false);
+  useEffect(() => setEnabled(window.location.hostname === "jaliscopy.vercel.app"), []);
+  return enabled ? <Analytics route={route} /> : null;
 }
 
 export default function SiteLayout() {
   const [scrolled, setScrolled] = useState(false);
-  const [mobileOpen, setMobileOpen] = useState(false);
   const location = useLocation();
-  useEffect(() => { const update = () => setScrolled(window.scrollY > 24); update(); window.addEventListener("scroll", update, { passive: true }); return () => window.removeEventListener("scroll", update); }, []);
-  useEffect(() => { setMobileOpen(false); window.scrollTo({ top: 0, behavior: "instant" }); }, [location.pathname]);
+  const previousPath = useRef(location.pathname);
+  useEffect(() => {
+    const update = () => setScrolled(window.scrollY > 24);
+    update();
+    window.addEventListener("scroll", update, { passive: true });
+    return () => window.removeEventListener("scroll", update);
+  }, []);
+  useEffect(() => {
+    if (previousPath.current === location.pathname) return;
+    previousPath.current = location.pathname;
+    window.scrollTo({ top: 0, behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth" });
+    requestAnimationFrame(() => {
+      const target = document.querySelector<HTMLElement>("#contenido h1") ?? document.getElementById("contenido");
+      target?.focus({ preventScroll: true });
+    });
+  }, [location.pathname]);
 
   return <div className="site-shell">
     <a className="skip-link" href="#contenido">Saltar al contenido</a>
+    <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(restaurantSchema).replace(/</g, "\\u003c") }} />
     <header className={`site-nav ${scrolled ? "site-nav--scrolled" : ""}`}><div className="nav-inner">
-      <Link className="brand" to="/" aria-label={`${business.name}, inicio`}><BrandLogo /><span className="brand__wordmark"><span>Jalisco</span><small>Mexican grill</small></span></Link>
-      <nav className="desktop-nav" aria-label="Navegación principal"><Link to="/menu">Menú</Link><Link to="/reservas">Reservas</Link><InstagramLink /></nav>
-      <a className="mobile-instagram" href={business.instagram} target="_blank" rel="noopener noreferrer" aria-label={`Instagram ${instagramHandle}`}><Instagram size={19} aria-hidden="true" /></a>
-      <button className="mobile-nav-toggle" type="button" aria-label={mobileOpen ? "Cerrar menú" : "Abrir menú"} aria-expanded={mobileOpen} onClick={() => setMobileOpen((value) => !value)}>{mobileOpen ? <X size={21} /> : <MenuIcon size={21} />}</button>
-    </div>{mobileOpen && <nav className="mobile-nav" aria-label="Navegación móvil"><Link to="/menu" onClick={() => setMobileOpen(false)}>Menú</Link><Link to="/reservas" onClick={() => setMobileOpen(false)}>Reservas</Link><InstagramLink /></nav>}</header>
+      <Link className="brand" to="/" aria-current={location.pathname === "/" ? "page" : undefined}><BrandLogo /><span className="brand__wordmark"><span>Jalisco</span><small>Mexican grill</small></span></Link>
+      <nav className="desktop-nav" aria-label="Navegación principal">
+        <NavLink to="/menu" className={({ isActive }) => isActive ? "is-active" : undefined} aria-label="Menú">Menú</NavLink>
+        <NavLink to="/reservas" className={({ isActive }) => isActive ? "is-active" : undefined} aria-label="Reservas">Reservas</NavLink>
+        <InstagramLink />
+      </nav>
+      <TrackedLink className="nav-order" href={business.whatsapp} event="order_whatsapp" eventData={{ location: "header" }} aria-label="Pedir por WhatsApp, se abre en una pestaña nueva" {...safeExternalLink}><WhatsappMark size={17} />Pedir por WhatsApp</TrackedLink>
+      <TrackedLink className="mobile-instagram" href={business.instagram} event="instagram" aria-label={`Instagram ${instagramHandle}, se abre en una pestaña nueva`} {...safeExternalLink}><Instagram size={19} aria-hidden="true" /></TrackedLink>
+      <nav className="mobile-inline-nav" aria-label="Navegación principal móvil">
+        <NavLink to="/menu" className={({ isActive }) => isActive ? "is-active" : undefined}>Menú</NavLink>
+        <NavLink to="/reservas" className={({ isActive }) => isActive ? "is-active" : undefined}>Reservas</NavLink>
+      </nav>
+    </div></header>
     <div key={location.pathname} className="route-transition"><Outlet /></div>
     <footer className="footer">
       <div className="footer__diamond-strip" aria-hidden="true"><span /><span /><span /><span /><span /><span /><span /><span /><span /><span /><span /><span /></div>
       <div className="section-wrap footer__main">
-        <Link className="brand brand--footer" to="/" aria-label={`${business.name}, inicio`}><BrandLogo /><span className="brand__wordmark"><span>Jalisco</span><small>Mexican grill</small></span></Link>
-        <p>{copy.footer}</p>
-        <div className="footer__hours"><strong>Horarios</strong><OpeningHours variant="schedule" /></div>
-        <div className="footer__links"><a className="footer__instagram" href={business.instagram} {...safeExternalLink}><Instagram size={19} aria-hidden="true" />{instagramHandle}</a><a className="footer__whatsapp" href={business.whatsapp} {...safeExternalLink}><WhatsappMark size={18} />WhatsApp</a><a className="footer__pedidosya" href={business.pedidosYa} {...safeExternalLink}><img src={pedidosYaIcon} width="24" height="24" alt="" />PedidosYa</a></div>
+        <Link className="brand brand--footer" to="/" aria-current={location.pathname === "/" ? "page" : undefined}><BrandLogo /><span className="brand__wordmark"><span>Jalisco</span><small>Mexican grill</small></span></Link>
+        <div className="footer__location"><strong>Encontranos en</strong><p>{copy.footer}</p><OpeningHours variant="compact" /></div>
+        <nav className="footer__links" aria-label="Redes y contacto">
+          <TrackedLink className="footer__instagram" href={business.instagram} event="instagram" aria-label="Instagram @jaliscopy, se abre en una pestaña nueva" {...safeExternalLink}><Instagram size={19} aria-hidden="true" />{instagramHandle}</TrackedLink>
+          <TrackedLink className="footer__whatsapp" href={business.whatsapp} event="order_whatsapp" eventData={{ location: "footer" }} aria-label="Pedir por WhatsApp, se abre en una pestaña nueva" {...safeExternalLink}><WhatsappMark size={18} />WhatsApp</TrackedLink>
+          <TrackedLink className="footer__pedidosya" href={business.pedidosYa} event="order_pedidosya" aria-label="Pedir por PedidosYa, se abre en una pestaña nueva" {...safeExternalLink}><img src={pedidosYaIcon} width="24" height="24" alt="" />PedidosYa</TrackedLink>
+        </nav>
       </div>
-      <div className="section-wrap footer__bottom"><span>Jalisco Mexican Grill</span><span>{locations[0].address}</span></div>
+      <div className="section-wrap footer__bottom"><CopyrightYear /></div>
     </footer>
-    <a className="whatsapp-float" href={business.whatsapp} target="_blank" rel="noopener noreferrer" aria-label="Pedir por WhatsApp"><span className="whatsapp-float__pulse" aria-hidden="true" /><WhatsappMark size={26} /></a>
+    <TrackedLink className="whatsapp-float" href={business.whatsapp} event="order_whatsapp" eventData={{ location: "flotante" }} aria-label="Pedir por WhatsApp, se abre en una pestaña nueva" {...safeExternalLink}><span className="whatsapp-float__pulse" aria-hidden="true" /><WhatsappMark size={26} /></TrackedLink>
     <MobileActionBar />
+    <ProductionAnalytics route={location.pathname} />
   </div>;
 }

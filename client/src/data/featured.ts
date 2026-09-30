@@ -2,9 +2,8 @@ import { menu } from "@/data/menu";
 
 const featuredRecords = [
   {
-    category: "Los combos más chingones",
     name: "Botana pa 2",
-    recomendadoPorLaCasa: true,
+    editorialBadge: "Recomendado",
     alt: "Botana mexicana para compartir, con totopos, salsas, quesadillas y acompañamientos. Foto referencial.",
     imageKey: "botana",
     focalPoint: "50% 50%",
@@ -13,9 +12,8 @@ const featuredRecords = [
     imageNote: "Bandeja variada mexicana. La toma incluye totopos, quesadillas/acompañamientos y salsas; no se distingue con certeza guacamole.",
   },
   {
-    category: "Los combos más chingones",
     name: "Fajitas de res",
-    recomendadoPorLaCasa: true,
+    editorialBadge: null,
     alt: "Fajitas mexicanas con carne a la parrilla, verduras, tortillas y salsas. Foto referencial.",
     imageKey: "fajitas",
     focalPoint: "50% 50%",
@@ -24,9 +22,8 @@ const featuredRecords = [
     imageNote: "La ficha describe carne a la parrilla, verduras, tortillas y salsas; no especifica que sea res. Es la referencia más cercana localizada, no una foto del plato de Jalisco.",
   },
   {
-    category: "Pa picar",
     name: "Nachos Jalisco",
-    recomendadoPorLaCasa: true,
+    editorialBadge: null,
     alt: "Nachos con queso fundido, jalapeños y tomate en cubos; fotografía referencial.",
     imageKey: "nachos",
     focalPoint: "50% 50%",
@@ -35,9 +32,8 @@ const featuredRecords = [
     imageNote: "La ficha confirma queso, jalapeños y tomate, pero no carne. La imagen es aproximada y no garantiza la receta exacta de Nachos Jalisco.",
   },
   {
-    category: "Tacos (incluye 4 tacos y 2 salsas)",
     name: "Tacos de birria",
-    recomendadoPorLaCasa: true,
+    editorialBadge: null,
     alt: "Tacos de birria acompañados de consomé y rábanos frescos; foto referencial.",
     imageKey: "birria",
     focalPoint: "50% 66%",
@@ -48,7 +44,7 @@ const featuredRecords = [
 ] as const;
 
 export const featuredDishes = featuredRecords.map((record) => {
-  const item = menu.find((group) => group.categoria === record.category)?.items.find((dish) => dish.nombre === record.name);
+  const item = menu.flatMap((group) => group.items).find((dish) => dish.nombre === record.name);
   if (!item) throw new Error(`No se encontró en el catálogo: ${record.name}`);
   return { ...record, ...item };
 });
